@@ -1,0 +1,34 @@
+{
+  "name": "@vue-storefront/vsf-payment-paypal",
+  "version": "1.0.1",
+  "description": "A PayPal extension built for vue-storefront, by Develo Design.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/develodesign/vsf-payment-paypal.git"
+  },
+  "keywords": [
+    "vue-storefront-paypal",
+    "vsf-payment-paypal",
+    "develodesign/vue-storefront-paypal",
+    "develodesign",
+    "vue-storefront",
+    "divanteltd/vue-storefront"
+  ],
+  "author": "Dmitry Schegolikhin <dmitry@develodesign.co.uk> (https://www.develodesign.co.uk)",
+  "maintainers": [
+    "Luke Collymore <luke@develodesign.co.uk> (https://www.develodesign.co.uk)",
+    "Dmitry Schegolikhin <dmitry@develodesign.co.uk> (https://www.develodesign.co.uk)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/develodesign/vsf-payment-paypal/issues"
+  },
+  "homepage": "https://github.com/develodesign/vsf-payment-paypal#readme"
+}
