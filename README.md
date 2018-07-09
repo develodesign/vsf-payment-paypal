@@ -1,6 +1,6 @@
-# Stripe Payment extension for Vue Storefront
+# Paypal Payment extension for Vue Storefront
 
-Stripe Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://develodesign.co.uk).
+PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://develodesign.co.uk).
 
 ## Installation using NPM:
 
