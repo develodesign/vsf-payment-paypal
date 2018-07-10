@@ -3,9 +3,9 @@ import EventBus from 'core/plugins/event-bus'
 
 import extensionStore from './store'
 import extensionRoutes from './router'
-import InfoComponent from './components/info'
+import PaypalComponent from './components/PaymentPaypal'
 
-const EXTENSION_KEY = 'payment-paypal'
+const EXTENSION_KEY = 'vsf-payment-paypal'
 
 export default function (app, router, store, config) {
   router.addRoutes(extensionRoutes) // add custom routes
@@ -34,7 +34,7 @@ export default function (app, router, store, config) {
       EventBus.$on('checkout-before-placeOrder', placeOrder)
 
       // Dynamically inject a component into the order review section (optional)
-      const Component = Vue.extend(InfoComponent)
+      const Component = Vue.extend(PaypalComponent)
       const componentInstance = (new Component())
       componentInstance.$mount('#checkout-order-review-additional')
     } else {
