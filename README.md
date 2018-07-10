@@ -25,7 +25,7 @@ export default [
 ]
 ```
 
-Add the following also to your `config/local.json` and configure the `paypal.api_key` to point to your Stripe details.
+Add the following also to your `config/local.json` and configure the `paypal.api_key` to point to your PayPal details.
 ```js
 "paypal": {
     "api_key": "my_example_api_key"
