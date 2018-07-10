@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: 'PaymentPayPal',
+  name: 'PaymentPaypal',
   data () {
     return {}
   }
