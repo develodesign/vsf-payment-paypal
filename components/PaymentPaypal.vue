@@ -8,16 +8,22 @@
       <p>
         You are to pay for this order via PayPal.
       </p>
+      <paypal-button/>
     </div>
   </div>
 
 </template>
 
 <script>
+import PaypalButton from '../components/Button'
+
 export default {
   name: 'PaymentPaypal',
   data () {
     return {}
+  },
+  components: {
+    PaypalButton
   }
 }
 </script>

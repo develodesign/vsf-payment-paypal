@@ -1,11 +1,11 @@
 <template>
   <div id="custom">
-    <paypal-button/>
+    <payment-paypal/>
   </div>
 </template>
 
 <script>
-import PaypalButton from '../components/PaymentPaypal'
+import PaymentPaypal from '../components/PaymentPaypal'
 
 export default {
   name: 'CustomExample',
@@ -15,7 +15,7 @@ export default {
     }
   },
   components: {
-    PaypalButton
+    PaymentPaypal
   }
 }
 </script>
