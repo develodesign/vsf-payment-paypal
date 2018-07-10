@@ -22,11 +22,11 @@ export default {
   },
   methods: {
     loadDependencies (callback) {
-      let stripeJsUrl = 'https://www.paypalobjects.com/api/checkout.js'
+      let paypalJsUrl = 'https://www.paypalobjects.com/api/checkout.js'
       let docHead = document.getElementsByTagName('head')[0]
       let docScript = document.createElement('script')
       docScript.type = 'text/javascript'
-      docScript.src = stripeJsUrl
+      docScript.src = paypalJsUrl
       // When script is ready fire our callback.
       docScript.onreadystatechange = callback
       docScript.onload = callback
