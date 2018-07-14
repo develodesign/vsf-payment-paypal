@@ -1,4 +1,4 @@
-# Paypal Payment extension for Vue Storefront
+# Vue Storefront PayPal Payment Extension
 
 PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://develodesign.co.uk).
 
