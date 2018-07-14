@@ -1,13 +1,32 @@
 <template>
-  <div class="paypal-button"/>
+  <div>
+    <div class="paypal-button"/>
+    <div>{{ totals }}</div>
+    <div>{{ country }} {{ lang }} {{ currency }}</div>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'PaypalButton',
+  data () {
+    const storeView = currentStoreView()
+    return {
+      country: storeView.i18n.defaultCountry,
+      lang: storeView.i18n.defaultLanguage,
+      currency: storeView.i18n.currencyCode
+    }
+  },
   mounted () {
     this.loadDependencies(this.configurePaypal)
+  },
+  computed: {
+    ...mapGetters({
+      totals: 'cart/totals'
+    })
   },
   methods: {
     loadDependencies (callback) {
@@ -43,7 +62,7 @@ export default {
       }, this.$el)
     },
     createPayment (data, actions) {
-      return actions.payment.create({ transactions: [{ amount: { total: '0.01', currency: 'USD' } }] })
+      return actions.payment.create({ transactions: [{ amount: { total: '0.01', currency: this.currency } }] })
     },
     onAuthorize (data, actions) {
       const vue = this
