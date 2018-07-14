@@ -13,8 +13,7 @@ export default {
         sandbox: 'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
         production: '<insert production client id>'
       },
-      commit: true, // Display a "Pay Now" button rather than a "Continue" button
-      payment: { transactions: [{ amount: { total: '0.01', currency: 'USD' } }] }
+      commit: true // Display a "Pay Now" button rather than a "Continue" button
     }
   },
   mounted () {
@@ -42,7 +41,7 @@ export default {
         client: this.client,
         // Pass the payment details for your transaction
         // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
-        payment: this.onPayment,
+        payment: this.createPayment,
         // Display a "Pay Now" button rather than a "Continue" button
         commit: this.commit,
         // Pass a function to be called when the customer completes the payment
@@ -51,10 +50,8 @@ export default {
         onCancel: this.onCancel
       }, this.$el)
     },
-    onPayment () {
-      return window.actions.payment.create(
-        { payment: { transactions: [{ amount: { total: '0.01', currency: 'USD' } }] } }
-      )
+    createPayment (data, actions) {
+      return actions.payment.create({ transactions: [{ amount: { total: '0.01', currency: 'USD' } }] })
     },
     onAuthorize (data, actions) {
       const vue = this
