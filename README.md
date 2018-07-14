@@ -25,7 +25,7 @@ export default [
 ]
 ```
 
-Add the following also to your `config/local.json` and configure the `paypal.api_key` to point to your PayPal details.
+Add the following also to your `config/local.json` and configure Client ID the `paypal.client.production` to point to your PayPal details. For production need set `paypal.env` to `production`.
 ```js
 "paypal": {
   "env": "sandbox",
@@ -40,3 +40,5 @@ Add the following also to your `config/local.json` and configure the `paypal.api
   }
 }
 ```
+
+Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
