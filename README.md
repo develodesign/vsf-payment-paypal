@@ -30,7 +30,7 @@ Add the following also to your `config/local.json` and configure Client ID the `
 "paypal": {
   "env": "sandbox",
   "client": {
-    "sandbox": "AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R",
+    "sandbox": "<insert sandbox client id>",
     "production": "<insert production client id>"
   },
   "style": {
