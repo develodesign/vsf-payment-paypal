@@ -41,4 +41,6 @@ Add the following also to your `config/local.json` and configure Client ID the `
 }
 ```
 
+`client.sandbox` - demo sandbox `client id`
+
 Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
