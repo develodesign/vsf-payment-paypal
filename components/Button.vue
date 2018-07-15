@@ -58,7 +58,7 @@ export default {
       }, this.$el)
     },
     getGrandTotal () {
-      return this.totals.filter(segment => segment.code === 'grand_total')[0].value + 0.01
+      return this.totals.filter(segment => segment.code === 'grand_total')[0].value
     },
     createPayment (data, actions) {
       const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
