@@ -2,7 +2,7 @@
   <div>
     <div class="paypal-button"/>
     <div>{{ totals }}</div>
-    <div>{{ country }} {{ lang }} {{ currency }}</div>
+    <div> {{ currency }} {{ locale }}</div>
   </div>
 </template>
 
@@ -15,9 +15,8 @@ export default {
   data () {
     const storeView = currentStoreView()
     return {
-      country: storeView.i18n.defaultCountry,
-      lang: storeView.i18n.defaultLanguage,
-      currency: storeView.i18n.currencyCode
+      currency: storeView.i18n.currencyCode,
+      locale: storeView.i18n.defaultLocale.replace('-', '_') // Convert to PayPal format of locale
     }
   },
   mounted () {
@@ -48,7 +47,7 @@ export default {
         // on sandbox and production environments
         client: this.$config.paypal.client,
         // Customize button (optional)
-        locale: 'en_US', // TODO: use from current store VSF
+        locale: this.locale, // Should be in format: 'en_US' accordance by PayPal Api (in VSF used 'en-US')
         style: this.$config.paypal.style,
         // Pass the payment details for your transaction
         // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
@@ -61,8 +60,11 @@ export default {
         onCancel: this.onCancel
       }, this.$el)
     },
+    getGrandTotal () {
+      return this.totals.filter(segment => segment.code === 'grand_total')[0].value
+    },
     createPayment (data, actions) {
-      return actions.payment.create({ transactions: [{ amount: { total: '0.01', currency: this.currency } }] })
+      return actions.payment.create({ transactions: [{ amount: { total: this.getGrandTotal(), currency: this.currency } }] })
     },
     onAuthorize (data, actions) {
       const vue = this
