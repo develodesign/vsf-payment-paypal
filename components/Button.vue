@@ -17,7 +17,7 @@ export default {
     }
   },
   mounted () {
-    this.loadDependencies(this.configurePaypal)
+    !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal()
   },
   computed: {
     ...mapGetters({
