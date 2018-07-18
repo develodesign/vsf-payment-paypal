@@ -30,23 +30,12 @@ export default function (app, router, store, config) {
   // Mount the info component when required.
   EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
     if (paymentMethodCode === 'paypal') {
-      // Register the handler for what happens when they click the place order button.
-      EventBus.$on('checkout-before-placeOrder', placeOrder)
-
       // Dynamically inject a component into the order review section (optional)
       const Component = Vue.extend(PaypalComponent)
       const componentInstance = (new Component())
       componentInstance.$mount('#checkout-order-review-additional')
-    } else {
-      // unregister the extensions placeorder handler
-      EventBus.$off('checkout-before-placeOrder', placeOrder)
     }
   })
 
   return { EXTENSION_KEY, extensionRoutes, extensionStore }
-}
-
-// Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
-function placeOrder () {
-  EventBus.$emit('checkout-do-placeOrder', {})
 }
