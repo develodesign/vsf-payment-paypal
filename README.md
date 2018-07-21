@@ -28,14 +28,12 @@ export default [
 ]
 ```
 
-Add the following also to your `config/local.json` and configure Client ID the `paypal.client.production` to point to your PayPal details. For production need set `paypal.env` to `production`.
+Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
 ```js
 "paypal": {
   "env": "sandbox",
-  "client": {
-    "sandbox": "<insert sandbox client id>",
-    "production": "<insert production client id>"
-  },
+  "create_endpoint": "http://localhost:8080/api/ext/paypal-payment/create",
+  "execute_endpoint": "http://localhost:8080/api/ext/paypal-payment/execute",
   "style": {
     "size": "small",
     "color": "gold",

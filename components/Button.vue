@@ -40,9 +40,6 @@ export default {
       window.paypal.Button.render({
         // Pass in env
         env: this.$config.paypal.env,
-        // Pass in the client ids to use to create your transaction
-        // on sandbox and production environments
-        client: this.$config.paypal.client,
         // Customize button (optional)
         locale: this.locale, // Should be in format: 'en_US' accordance by PayPal Api (in VSF used 'en-US')
         style: this.$config.paypal.style,
@@ -62,15 +59,23 @@ export default {
     },
     createPayment (data, actions) {
       const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
-      return actions.payment.create({ transactions })
+
+      return actions.request.post(this.$config.paypal.create_endpoint, { transactions })
+        .then(function(res) {
+          return res.id;
+        });
     },
     onAuthorize (data, actions) {
       const vue = this
       vue.$emit('payment-authorized', data)
       if (this.commit) {
-        return actions.payment.execute().then((response) => {
-          vue.$emit('payment-completed', response)
+        return actions.request.post(this.$config.paypal.execute_endpoint, {
+          paymentID: data.paymentID,
+          payerID:   data.payerID
         })
+          .then(function(res) {
+            vue.$emit('payment-completed', response)
+          });
       }
       return true
     },
