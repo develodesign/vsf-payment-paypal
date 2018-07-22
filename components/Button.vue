@@ -61,9 +61,9 @@ export default {
       const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
 
       return actions.request.post(this.$config.paypal.create_endpoint, { transactions })
-        .then(function(res) {
-          return res.id;
-        });
+        .then(function (res) {
+          return res.id
+        })
     },
     onAuthorize (data, actions) {
       const vue = this
@@ -71,11 +71,11 @@ export default {
       if (this.commit) {
         return actions.request.post(this.$config.paypal.execute_endpoint, {
           paymentID: data.paymentID,
-          payerID:   data.payerID
+          payerID: data.payerID
         })
-          .then(function(res) {
+          .then(function (response) {
             vue.$emit('payment-completed', response)
-          });
+          })
       }
       return true
     },
