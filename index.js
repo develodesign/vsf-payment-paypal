@@ -18,7 +18,7 @@ export default function (app, router, store, config) {
   // Add this payment method to the config.
   let paymentMethodConfig = {
     'title': 'Paypal',
-    'code': 'cashondelivery',
+    'code': 'paypal',
     'cost': 0,
     'costInclTax': 0,
     'default': true,
