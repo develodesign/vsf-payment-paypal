@@ -1,5 +1,5 @@
-/* import PageExample from './pages/PageExample.vue' */
+import PageExample from './pages/PageExample.vue'
 
 export default [
-  /* { path: '/paypal', component: PageExample } */
+  { path: '/paypal', component: PageExample }
 ]

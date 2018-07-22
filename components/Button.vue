@@ -80,15 +80,32 @@ export default {
         })
     },
     onAuthorize (data, actions) {
+      const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
+
       const vue = this
       vue.$emit('payment-authorized', data)
+      console.log(data)
       if (this.commit) {
-        return actions.request.post(this.$config.paypal.execute_endpoint, {
-          paymentID: data.paymentID,
-          payerID: data.payerID
-        })
-          .then(function (response) {
-            vue.$emit('payment-completed', response)
+        let url = this.$config.paypal.execute_endpoint
+        if (this.$config.storeViews.multistore) {
+          url = adjustMultistoreApiUrl(url)
+        }
+        return fetch(url, { method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            paymentID: data.paymentID,
+            payerID: data.payerID,
+            transactions: transactions
+          })
+        }).then(resp => { return resp.json() })
+          .then((resp) => {
+            if (resp.code === 200) {
+              vue.$emit('payment-completed', resp)
+            }
           })
       }
       return true
