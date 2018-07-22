@@ -4,7 +4,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { currentStoreView } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView, adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'PaypalButton',
@@ -60,9 +60,23 @@ export default {
     createPayment (data, actions) {
       const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
 
-      return actions.request.post(this.$config.paypal.create_endpoint, { transactions })
-        .then(function (res) {
-          return res.id
+      let url = this.$config.paypal.create_endpoint
+      if (this.$config.storeViews.multistore) {
+        url = adjustMultistoreApiUrl(url)
+      }
+      return fetch(url, { method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ transactions })
+      }).then(resp => { return resp.json() })
+        .then((resp) => {
+          if (resp.code === 200) {
+            console.log(resp)
+          }
+          return resp.id
         })
     },
     onAuthorize (data, actions) {
