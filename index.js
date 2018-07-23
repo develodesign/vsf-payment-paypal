@@ -18,7 +18,7 @@ export default function (app, router, store, config) {
   // Add this payment method to the config.
   let paymentMethodConfig = {
     'title': 'Paypal',
-    'code': 'paypal',
+    'code': 'vsf-paypal',
     'cost': 0,
     'costInclTax': 0,
     'default': true,
@@ -29,7 +29,7 @@ export default function (app, router, store, config) {
 
   // Mount the info component when required.
   EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-    if (paymentMethodCode === 'paypal') {
+    if (paymentMethodCode === 'vsf-paypal') {
       // Dynamically inject a component into the order review section (optional)
       const Component = Vue.extend(PaypalComponent)
       const componentInstance = (new Component())
