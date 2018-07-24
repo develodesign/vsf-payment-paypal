@@ -8,7 +8,7 @@
       <p>
         You are to pay for this order via PayPal.
       </p>
-      <paypal-button/>
+      <paypal-button :grand-total="platformTotals['grand_total']"/>
     </div>
   </div>
 
@@ -19,8 +19,12 @@ import PaypalButton from '../components/Button'
 
 export default {
   name: 'PaymentPaypal',
-  data () {
-    return {}
+  props: {
+    platformTotals: {
+      type: Object,
+      required: true,
+      default: function () {}
+    }
   },
   components: {
     PaypalButton

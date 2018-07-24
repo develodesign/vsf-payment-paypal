@@ -32,7 +32,11 @@ export default function (app, router, store, config) {
     if (paymentMethodCode === 'vsf-paypal') {
       // Dynamically inject a component into the order review section (optional)
       const Component = Vue.extend(PaypalComponent)
-      const componentInstance = (new Component())
+      const componentInstance = (new Component({
+        propsData: {
+          platformTotals: app.$store.state.cart.platformTotals
+        }
+      }))
       componentInstance.$mount('#checkout-order-review-additional')
     }
   })
