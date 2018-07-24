@@ -3,11 +3,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { currentStoreView, adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'PaypalButton',
+  props: {
+    grandTotal: {
+      type: Number,
+      required: true,
+      default: 0
+    }
+  },
   data () {
     const storeView = currentStoreView()
     return {
@@ -16,13 +22,9 @@ export default {
       locale: storeView.i18n.defaultLocale.replace('-', '_') // Convert to PayPal format of locale
     }
   },
-  mounted () {
-    !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal()
-  },
-  computed: {
-    ...mapGetters({
-      totals: 'cart/totals'
-    })
+  created () {
+    /* !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal() */
+    setTimeout(this.configurePaypal.bind(this), 1000)
   },
   methods: {
     loadDependencies (callback) {
@@ -58,7 +60,7 @@ export default {
       return this.totals.filter(segment => segment.code === 'grand_total')[0].value
     },
     createPayment (data, actions) {
-      const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
+      const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
 
       let url = this.$config.paypal.create_endpoint
       if (this.$config.storeViews.multistore) {
