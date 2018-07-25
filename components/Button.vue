@@ -56,9 +56,6 @@ export default {
         onCancel: this.onCancel
       }, this.$el)
     },
-    getGrandTotal () {
-      return this.totals.filter(segment => segment.code === 'grand_total')[0].value
-    },
     createPayment (data, actions) {
       const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
 
