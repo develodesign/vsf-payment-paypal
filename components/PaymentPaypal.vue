@@ -23,7 +23,7 @@ export default {
     platformTotals: {
       type: Object,
       required: true,
-      default: function () {}
+      default: () => {}
     }
   },
   components: {
