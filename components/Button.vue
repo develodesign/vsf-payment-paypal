@@ -24,9 +24,6 @@ export default {
   },
   mounted () {
     !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal()
-
-    // Register the handler for what happens when they click the place order button.
-    this.$bus.$on('checkout-before-placeOrder', () => {})
   },
   methods: {
     loadDependencies (callback) {
@@ -60,9 +57,11 @@ export default {
         }, this.$el)
       })
     },
+    getTransactions () {
+      return [{ amount: { total: this.grandTotal, currency: this.currency } }]
+    },
     createPayment (data, actions) {
-      const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
-
+      const transactions = this.getTransactions()
       let url = this.$config.paypal.create_endpoint
       if (this.$config.storeViews.multistore) {
         url = adjustMultistoreApiUrl(url)
@@ -82,10 +81,10 @@ export default {
         })
     },
     onAuthorize (data, actions) {
-      const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
+      const transactions = this.getTransactions()
 
-      const vue = this
-      vue.$emit('payment-paypal-authorized', data)
+      const vm = this
+      this.$emit('payment-paypal-authorized', data)
       if (this.commit) {
         let url = this.$config.paypal.execute_endpoint
         if (this.$config.storeViews.multistore) {
@@ -102,18 +101,14 @@ export default {
             payerID: data.payerID,
             transactions: transactions
           })
-        }).then(resp => { return resp.json() })
-          .then((resp) => {
-            vue.placeOrderWithPayload(resp)
-            if (resp.status === 'success') {
-              vue.$emit('payment-paypal-completed', resp)
-            }
-          })
+        }).then((resp) => {
+          vm.$bus.$emit('checkout-do-placeOrder', resp)
+          if (resp.status === 'success') {
+            vm.$emit('payment-paypal-completed', resp)
+          }
+        })
       }
       return true
-    },
-    placeOrderWithPayload (payload) {
-      this.$bus.$emit('checkout-do-placeOrder', payload)
     },
     onCancel (data) {
       this.$emit('payment-paypal-cancelled', data)
