@@ -28,21 +28,6 @@ export default [
 ]
 ```
 
-Add the `checkout.min.js` script to specific theme template, for example to `src/themes/default/index.template.html` In our case - you theme path.
-```
-<script type="text/javascript">
-			(function() {
-				var wf = document.createElement('script');
-				wf.src = ('https:' == document.location.protocol ? 'https' : 'https') +
-				'://www.paypalobjects.com/api/checkout.min.js';
-				wf.type = 'text/javascript';
-				wf.async = 'true';
-				var s = document.getElementsByTagName('script')[0];
-				s.parentNode.insertBefore(wf, s);
-			})();
-		</script>
-```
-
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
 ```js
 "paypal": {
