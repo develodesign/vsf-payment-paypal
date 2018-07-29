@@ -81,6 +81,9 @@ export default {
         })
     },
     onAuthorize (data, actions) {
+      // For pass required validation and successfully place order.
+      document.getElementById('acceptTermsCheckbox').click()
+
       const transactions = this.getTransactions()
 
       const vm = this
