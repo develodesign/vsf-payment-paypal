@@ -22,9 +22,8 @@ export default {
       locale: storeView.i18n.defaultLocale.replace('-', '_') // Convert to PayPal format of locale
     }
   },
-  created () {
-    /* !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal() */
-    setTimeout(this.configurePaypal.bind(this), 1000)
+  mounted () {
+    !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal()
   },
   methods: {
     loadDependencies (callback) {
@@ -39,22 +38,24 @@ export default {
       docHead.appendChild(docScript)
     },
     configurePaypal () {
-      window.paypal.Button.render({
-        // Pass in env
-        env: this.$config.paypal.env,
-        // Customize button (optional)
-        locale: this.locale, // Should be in format: 'en_US' accordance by PayPal Api (in VSF used 'en-US')
-        style: this.$config.paypal.style,
-        // Pass the payment details for your transaction
-        // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
-        payment: this.createPayment,
-        // Display a "Pay Now" button rather than a "Continue" button
-        commit: this.commit,
-        // Pass a function to be called when the customer completes the payment
-        onAuthorize: this.onAuthorize,
-        // Pass a function to be called when the customer cancels the payment
-        onCancel: this.onCancel
-      }, this.$el)
+      this.$nextTick(() => {
+        window.paypal.Button.render({
+          // Pass in env
+          env: this.$config.paypal.env,
+          // Customize button (optional)
+          locale: this.locale, // Should be in format: 'en_US' accordance by PayPal Api (in VSF used 'en-US')
+          style: this.$config.paypal.style,
+          // Pass the payment details for your transaction
+          // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
+          payment: this.createPayment,
+          // Display a "Pay Now" button rather than a "Continue" button
+          commit: this.commit,
+          // Pass a function to be called when the customer completes the payment
+          onAuthorize: this.onAuthorize,
+          // Pass a function to be called when the customer cancels the payment
+          onCancel: this.onCancel
+        }, this.$el)
+      })
     },
     createPayment (data, actions) {
       const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
@@ -79,11 +80,10 @@ export default {
         })
     },
     onAuthorize (data, actions) {
-      const transactions = [{ amount: { total: this.getGrandTotal(), currency: this.currency } }]
+      const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
 
       const vue = this
       vue.$emit('payment-authorized', data)
-      console.log(data)
       if (this.commit) {
         let url = this.$config.paypal.execute_endpoint
         if (this.$config.storeViews.multistore) {
