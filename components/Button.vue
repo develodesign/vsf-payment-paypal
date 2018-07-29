@@ -24,6 +24,9 @@ export default {
   },
   mounted () {
     !window.hasOwnProperty('paypal') ? this.loadDependencies(this.configurePaypal) : this.configurePaypal()
+
+    // Register the handler for what happens when they click the place order button.
+    this.$bus.$on('checkout-before-placeOrder', () => {})
   },
   methods: {
     loadDependencies (callback) {
@@ -73,17 +76,16 @@ export default {
         body: JSON.stringify({ transactions })
       }).then(resp => { return resp.json() })
         .then((resp) => {
-          if (resp.code === 200) {
-            console.log(resp)
+          if (resp.hasOwnProperty('id')) {
+            return resp.id
           }
-          return resp.id
         })
     },
     onAuthorize (data, actions) {
       const transactions = [{ amount: { total: this.grandTotal, currency: this.currency } }]
 
       const vue = this
-      vue.$emit('payment-authorized', data)
+      vue.$emit('payment-paypal-authorized', data)
       if (this.commit) {
         let url = this.$config.paypal.execute_endpoint
         if (this.$config.storeViews.multistore) {
@@ -102,15 +104,19 @@ export default {
           })
         }).then(resp => { return resp.json() })
           .then((resp) => {
-            if (resp.code === 200) {
-              vue.$emit('payment-completed', resp)
+            vue.placeOrderWithPayload(resp)
+            if (resp.status === 'success') {
+              vue.$emit('payment-paypal-completed', resp)
             }
           })
       }
       return true
     },
+    placeOrderWithPayload (payload) {
+      this.$bus.$emit('checkout-do-placeOrder', payload)
+    },
     onCancel (data) {
-      this.$emit('payment-cancelled', data)
+      this.$emit('payment-paypal-cancelled', data)
     }
   }
 }
