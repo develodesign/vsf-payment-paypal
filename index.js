@@ -21,7 +21,7 @@ export default function (app, router, store, config) {
     'code': 'vsf-paypal',
     'cost': 0,
     'costInclTax': 0,
-    'default': true,
+    'default': false,
     'offline': true
   }
 
