@@ -59,7 +59,7 @@ export default {
         onCancel: this.onCancel
       }, this.$el)
 
-      setTimeout(function () { this.loader = false }.bind(this), 2000)
+      setTimeout(function () { this.loader = false }.bind(this), 5000)
     },
     getTransactions () {
       return [{ amount: { total: this.grandTotal, currency: this.currency } }]
