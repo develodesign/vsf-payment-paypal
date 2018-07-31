@@ -24,7 +24,7 @@ export default [
   require('vsf-payment-stripe/index.js'),
   require('src/extensions/cms/index.js'),
 
-  require('vsf-payment-paypal/index.js').default
+  require('vsf-payment-paypal/index.js')
 ]
 ```
 
