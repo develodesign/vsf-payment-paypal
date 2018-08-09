@@ -36,7 +36,6 @@ export default function (app, router, store, config) {
       // Dynamically inject a component into the order review section (optional)
       const Component = Vue.extend(PaypalComponent)
       const componentInstance = (new Component({
-        propsData: { platformTotals: app.$store.state.cart.platformTotals },
         parent: app
       }))
       componentInstance.$mount('#checkout-order-review-additional')
