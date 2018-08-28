@@ -4,6 +4,7 @@ import EventBus from 'core/plugins/event-bus'
 import extensionStore from './store'
 import extensionRoutes from './router'
 import PaypalComponent from './components/PaymentPaypal'
+import PaypalButton from './components/Button'
 
 const EXTENSION_KEY = 'vsf-payment-paypal'
 
@@ -35,10 +36,12 @@ export default function (app, router, store, config) {
 
       // Dynamically inject a component into the order review section (optional)
       const Component = Vue.extend(PaypalComponent)
-      const componentInstance = (new Component({
-        parent: app
-      }))
+      const componentInstance = (new Component({ parent: app }))
       componentInstance.$mount('#checkout-order-review-additional')
+
+      const Button = Vue.extend(PaypalButton)
+      const btnInstance = (new Button({ parent: app }))
+      btnInstance.$mount('#order-review-container')
     } else {
       // unregister the extensions placeorder handler
       EventBus.$off('checkout-before-placeOrder', placeOrder)
