@@ -34,6 +34,8 @@ export default function (app, router, store, config) {
       // Register the handler for what happens when they click the place order button.
       EventBus.$on('checkout-before-placeOrder', placeOrder)
 
+      EventBus.$emit('place-order-button-visible', false)
+
       // Dynamically inject a component into the order review section (optional)
       const Component = Vue.extend(PaypalComponent)
       const componentInstance = (new Component({ parent: app }))
@@ -41,8 +43,19 @@ export default function (app, router, store, config) {
 
       const Button = Vue.extend(PaypalButton)
       const btnInstance = (new Button({ parent: app }))
-      btnInstance.$mount('#order-review-container')
+
+      var container = document.querySelector('#place-order-container')
+      if (container !== null) {
+        container.appendChild(document.createElement('div')).id = 'place-order-container-child'
+      }
+
+      btnInstance.$mount('#place-order-container-child')
     } else {
+      EventBus.$emit('place-order-button-visible', true)
+
+      var el = document.querySelector('.paypal-button')
+      el !== null && el.parentNode.removeChild(el)
+
       // unregister the extensions placeorder handler
       EventBus.$off('checkout-before-placeOrder', placeOrder)
     }
