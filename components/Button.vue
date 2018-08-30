@@ -1,5 +1,5 @@
 <template>
-  <div class="paypal-button"><span v-show="loader" class="loader lds-dual-ring"/></div>
+  <div class="paypal-button"><span v-show="loader"/></div>
 </template>
 
 <script>
@@ -7,13 +7,6 @@ import { currentStoreView, adjustMultistoreApiUrl } from '@vue-storefront/store/
 
 export default {
   name: 'PaypalButton',
-  props: {
-    grandTotal: {
-      type: Number,
-      required: true,
-      default: 0
-    }
-  },
   data () {
     const storeView = currentStoreView()
     return {
@@ -28,6 +21,11 @@ export default {
       ? this.loadDependencies(this.configurePaypal)
       : this.configurePaypal()
   },
+  computed: {
+    grandTotal () {
+      return this.$store.state.cart.platformTotals['grand_total'] || 0
+    }
+  },
   methods: {
     loadDependencies (callback) {
       let jsUrl = 'https://www.paypalobjects.com/api/checkout.js'
@@ -41,7 +39,6 @@ export default {
       docHead.appendChild(docScript)
     },
     configurePaypal () {
-      this.loader = true
       window.paypal.Button.render({
         // Pass in env
         env: this.$config.paypal.env,
@@ -58,8 +55,6 @@ export default {
         // Pass a function to be called when the customer cancels the payment
         onCancel: this.onCancel
       }, this.$el)
-
-      setTimeout(function () { this.loader = false }.bind(this), 5000)
     },
     getTransactions () {
       return [{ amount: { total: this.grandTotal, currency: this.currency } }]
@@ -122,37 +117,5 @@ export default {
 </script>
 
 <style scoped>
-  .paypal-button {
-    position: relative;
-  }
-  .loader {
-    position: absolute;
-    top: -12px;
-    left: 40px;
-    z-index: 200;
-  }
-  .lds-dual-ring {
-    display: inline-block;
-    width: 64px;
-    height: 64px;
-  }
-  .lds-dual-ring:after {
-    content: " ";
-    display: block;
-    width: 46px;
-    height: 46px;
-    margin: 1px;
-    border-radius: 50%;
-    border: 5px solid #009cde;
-    border-color: #009cde transparent #009cde transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
-  }
-  @keyframes lds-dual-ring {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+
 </style>
