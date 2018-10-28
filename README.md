@@ -26,8 +26,8 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 ```js
 "paypal": {
   "env": "sandbox",
-  "create_endpoint": "http://localhost:8080/api/ext/paypal-payment/create",
-  "execute_endpoint": "http://localhost:8080/api/ext/paypal-payment/execute"
+  "create_endpoint": "http://localhost:8080/api/ext/payment-paypal/create",
+  "execute_endpoint": "http://localhost:8080/api/ext/payment-paypal/execute"
 }
 ```
 
