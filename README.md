@@ -17,7 +17,7 @@ Then need push the paypal extension to `extensionList` in `src/extensions/index.
 extensionList.push(require('@vue-storefront/extension-payment-paypal/index.js'))
 ```
 
-For detect the extension of `@vue-storefront/extension-payment-paypal` by lerna, evaluate the `yarn` command from console:
+For detect the `@vue-storefront/extension-payment-paypal` by lerna, evaluate the `yarn` command from console:
 ```js
 $ yarn
 ```
