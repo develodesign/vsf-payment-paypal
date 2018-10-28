@@ -39,7 +39,7 @@ export default {
       docHead.appendChild(docScript)
     },
     configurePaypal () {
-      let defaultStyle = {'size': 'small', 'color': 'gold', 'shape': 'pill' }
+      let defaultStyle = { 'size': 'small', 'color': 'gold', 'shape': 'pill' }
       window.paypal.Button.render({
         // Pass in env
         env: this.$config.paypal.env,
