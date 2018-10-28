@@ -31,6 +31,13 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
+Install additional extension for `vue-storefront-api`:
+```js
+git clone git@github.com:develodesign/vsf-payment-paypal-api.git ../vue-storefront-api/src/api/extensions/payment-paypal
+```
+Next see configuration [vsf-payment-paypal-api](https://github.com/develodesign/vsf-payment-paypal-api)
+
+
 ## Customization
 
 Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
