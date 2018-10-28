@@ -1,6 +1,6 @@
 {
-  "name": "vsf-payment-paypal",
-  "version": "1.0.1",
+  "name": "@vue-storefront/extension-payment-paypal",
+  "version": "1.4.0",
   "description": "A PayPal extension built for vue-storefront, by Develo Design.",
   "main": "index.js",
   "scripts": {

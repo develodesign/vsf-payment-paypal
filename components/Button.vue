@@ -39,12 +39,13 @@ export default {
       docHead.appendChild(docScript)
     },
     configurePaypal () {
+      let defaultStyle = {'size': 'small', 'color': 'gold', 'shape': 'pill' }
       window.paypal.Button.render({
         // Pass in env
         env: this.$config.paypal.env,
         // Customize button (optional)
         locale: this.locale, // Should be in format: 'en_US' accordance by PayPal Api (in VSF used 'en-US')
-        style: this.$config.paypal.style,
+        style: Object.assign({}, defaultStyle, this.$config.paypal.hasOwnProperty('style') ? this.$config.paypal.style : {}),
         // Pass the payment details for your transaction
         // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
         payment: this.createPayment,

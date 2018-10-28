@@ -12,20 +12,9 @@ Add the extension to your Vue Storefront `package.json` using:
 $ npm install vsf-payment-paypal --save
 ```
 
-Add `vsf-payment-paypal` to the  `extensions/index.js`
+Then need push the paypal extension to `extensionList` in `src/extensions/index.js`
 ```js
-export default [
-  require('@vue-storefront/extension-droppoint-shipping/index.js'),
-  require('@vue-storefront/extension-google-analytics/index.js'),
-  require('@vue-storefront/extension-mailchimp-subscribe/index.js'),
-  require('@vue-storefront/extension-payment-backend-methods/index.js'),
-  require('@vue-storefront/extension-payment-cash-on-delivery/index.js'),
-  require('@vue-storefront/extension-template/index.js'),
-  require('vsf-payment-stripe/index.js'),
-  require('src/extensions/cms/index.js'),
-
-  require('vsf-payment-paypal/index.js')
-]
+extensionList.push(require('@vue-storefront/extension-payment-paypal/index.js'))
 ```
 
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
@@ -33,7 +22,17 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 "paypal": {
   "env": "sandbox",
   "create_endpoint": "http://localhost:8080/api/ext/paypal-payment/create",
-  "execute_endpoint": "http://localhost:8080/api/ext/paypal-payment/execute",
+  "execute_endpoint": "http://localhost:8080/api/ext/paypal-payment/execute"
+}
+```
+
+## Customization
+
+Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
+
+```js
+"paypal": {
+  ...
   "style": {
     "size": "small",
     "color": "gold",
@@ -41,5 +40,3 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
   }
 }
 ```
-
-Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
