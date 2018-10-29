@@ -23,7 +23,8 @@ export default {
   },
   computed: {
     grandTotal () {
-      return this.$store.state.cart.platformTotals['grand_total'] || 0
+      let cartTotals = this.$store.getters['cart/totals']
+      return cartTotals.find(segment => segment.code === 'grand_total').value
     }
   },
   methods: {
@@ -62,8 +63,8 @@ export default {
     },
     createPayment (data, actions) {
       const transactions = this.getTransactions()
-      let url = this.$config.paypal.create_endpoint
-      if (this.$config.storeViews.multistore) {
+      let url = this.$store.state.config.paypal.create_endpoint
+      if (this.$store.state.config.storeViews.multistore) {
         url = adjustMultistoreApiUrl(url)
       }
       return fetch(url, { method: 'POST',
@@ -86,8 +87,8 @@ export default {
       const vm = this
       this.$emit('payment-paypal-authorized', data)
       if (this.commit) {
-        let url = this.$config.paypal.execute_endpoint
-        if (this.$config.storeViews.multistore) {
+        let url = this.$store.state.config.paypal.execute_endpoint
+        if (this.$store.state.config.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
         return fetch(url, { method: 'POST',

@@ -13,17 +13,17 @@ $ npm install vsf-payment-paypal --save
 ```
 
 Then need push the paypal extension to `extensionList` in `src/extensions/index.js`
-```js
+```shell
 extensionList.push(require('@vue-storefront/extension-payment-paypal/index.js'))
 ```
 
 For detect the `@vue-storefront/extension-payment-paypal` by lerna, evaluate the `yarn` command from console:
-```js
+```shell
 $ yarn
 ```
 
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
-```js
+```json
 "paypal": {
   "env": "sandbox",
   "create_endpoint": "http://localhost:8080/api/ext/payment-paypal/create",
@@ -32,7 +32,7 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 ```
 
 Install additional extension for `vue-storefront-api`:
-```js
+```shell
 git clone git@github.com:develodesign/vsf-payment-paypal-api.git ../vue-storefront-api/src/api/extensions/payment-paypal
 ```
 Next see configuration [vsf-payment-paypal-api](https://github.com/develodesign/vsf-payment-paypal-api)
@@ -42,7 +42,7 @@ Next see configuration [vsf-payment-paypal-api](https://github.com/develodesign/
 
 Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
 
-```js
+```json
 "paypal": {
   ...
   "style": {
