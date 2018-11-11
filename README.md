@@ -3,7 +3,7 @@
 PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://www.develodesign.co.uk).
 
 ## The architecture
-![Architecture diagram](doc/executing-paypal-payment-server-integration.svg)
+![Architecture diagram](docs/executing-paypal-payment-server-integration.svg)
 
 ## Installation using NPM:
 
