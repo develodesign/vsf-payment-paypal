@@ -31,11 +31,37 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
+# PayPal payment API extension
+
 Install additional extension for `vue-storefront-api`:
 ```shell
-git clone git@github.com:develodesign/vsf-payment-paypal-api.git ../vue-storefront-api/src/api/extensions/payment-paypal
+cp -fr ./api-ext ../vue-storefront-api/src/api/extensions/payment-paypal
 ```
-Next see configuration [vsf-payment-paypal-api](https://github.com/develodesign/vsf-payment-paypal-api)
+
+This API extension execute payment to PayPal gateway.
+It use `develodesign/m2-paypal-payment` composer module so you have to install it in your Magento instance.
+
+in your `local.json` file you should register the extension:
+```
+"registeredExtensions": [
+    ...
+    "payment-paypal"
+]
+```
+
+And need add the `paypal` settings to `extensions` key in `local.json`:
+```
+  "extensions": {
+    "mailchimp": {
+      ...
+    },
+    "paypal": {
+      "api": "https://api.sandbox.paypal.com",
+      "client": "",
+      "secret": ""
+    }
+  }
+```
 
 
 ## Customization
