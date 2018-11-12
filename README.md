@@ -5,9 +5,14 @@ PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-
 ## The architecture
 ![Architecture diagram](docs/executing-paypal-payment-server-integration.svg)
 
-## Installation using NPM:
+## Installation:
 
-Add the extension to your Vue Storefront `package.json` using:
+By hand (preferer):
+```shell
+git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/core/modules/paypal
+```
+
+Or as dependency. Add the extension to your Vue Storefront `package.json` using:
 ```shell
 $ npm install vsf-payment-paypal --save
 ```
@@ -21,9 +26,7 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
-## Registration the Paypal module:
-
-Go to `./core/modules-entry.ts`
+Registration the Paypal module. Go to `./core/modules-entry.ts`
 ![Paypal register as module](docs/paypal-entry.png)
 
 
@@ -60,7 +63,7 @@ And add the `paypal` settings to `extensions` key:
 ## Magento2 integration
 
 This API extension execute payment to PayPal gateway.
-It use `develodesign/m2-paypal-payment` composer module so you have to install it in your Magento instance.
+It use `develodesign/m2-paypal-payment` [The custom Paypal payment method for Magento2](https://github.com/develodesign/m2-paypal-payment) composer module so you have to install it in your Magento instance.
 
 ## Customization
 
