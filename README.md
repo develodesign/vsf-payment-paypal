@@ -60,7 +60,7 @@ And add the `paypal` settings to `extensions` key:
 ## Magento2 integration
 
 This API extension execute payment to PayPal gateway.
-It use `develodesign/m2-paypal-payment` composer module so you have to install it in your Magento instance.
+It use `develodesign/m2-paypal-payment` [The custom Paypal payment method for Magento2](https://github.com/develodesign/m2-paypal-payment) composer module so you have to install it in your Magento instance.
 
 ## Customization
 
