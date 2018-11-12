@@ -3,23 +3,13 @@
 PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://www.develodesign.co.uk).
 
 ## The architecture
-![Architecture diagram](doc/executing-paypal-payment-server-integration.svg)
+![Architecture diagram](docs/executing-paypal-payment-server-integration.svg)
 
 ## Installation using NPM:
 
 Add the extension to your Vue Storefront `package.json` using:
 ```shell
 $ npm install vsf-payment-paypal --save
-```
-
-Then need push the paypal extension to `extensionList` in `src/extensions/index.js`
-```shell
-extensionList.push(require('@vue-storefront/extension-payment-paypal/index.js'))
-```
-
-For detect the `@vue-storefront/extension-payment-paypal` by lerna, evaluate the `yarn` command from console:
-```shell
-$ yarn
 ```
 
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
@@ -31,12 +21,45 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
+# Registration the Paypal module:
+
+Go to `./core/modules-entry.ts`
+![Paypal register as module](docs/paypal-entry.png)
+
+
+# PayPal payment API extension
+
 Install additional extension for `vue-storefront-api`:
 ```shell
-git clone git@github.com:develodesign/vsf-payment-paypal-api.git ../vue-storefront-api/src/api/extensions/payment-paypal
+cp -fr ./api-ext ../vue-storefront-api/src/api/extensions/payment-paypal
 ```
-Next see configuration [vsf-payment-paypal-api](https://github.com/develodesign/vsf-payment-paypal-api)
 
+Go to api config  `./vue-storefront-api/config/local.json` and register the extension:
+```
+"registeredExtensions": [
+    ...
+    "payment-paypal"
+]
+```
+
+And add the `paypal` settings to `extensions` key:
+```
+  "extensions": {
+    "mailchimp": {
+      ...
+    },
+    "paypal": {
+      "api": "https://api.sandbox.paypal.com",
+      "client": "",
+      "secret": ""
+    }
+  }
+```
+
+# Magento2 integration
+
+This API extension execute payment to PayPal gateway.
+It use `develodesign/m2-paypal-payment` composer module so you have to install it in your Magento instance.
 
 ## Customization
 
