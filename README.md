@@ -9,7 +9,7 @@ PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-
 
 By hand (preferer):
 ```shell
-git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/core/modules/paypal
+$ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/core/modules/paypal
 ```
 
 Or as dependency. Add the extension to your Vue Storefront `package.json` using:
@@ -34,8 +34,8 @@ Registration the Paypal module. Go to `./core/modules-entry.ts`
 
 Install additional extension for `vue-storefront-api`:
 ```shell
-mkdir -p ../vue-storefront-api/src/api/extensions/payment-paypal
-cp -f ./api-ext/index.js ../vue-storefront-api/src/api/extensions/payment-paypal/
+$ mkdir -p ../vue-storefront-api/src/api/extensions/payment-paypal
+$ cp -f ./api-ext/index.js ../vue-storefront-api/src/api/extensions/payment-paypal/
 ```
 
 Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
