@@ -10,19 +10,18 @@ function placeOrder () {
 
 export function beforeRegistration(Vue, config) {
 
+  console.log('The Paypal module registration!')
+
+  store.dispatch('payment/addMethod', {
+    'title': 'Paypal',
+    'code': 'vsfpaypal',
+    'cost': 0,
+    'costInclTax': 0,
+    'default': false,
+    'offline': true
+  })
+
   if (!Vue.prototype.$isServer) {
-    // Add this payment method to the config.
-    let paymentMethodConfig = {
-      'title': 'Paypal',
-      'code': 'vsfpaypal',
-      'cost': 0,
-      'costInclTax': 0,
-      'default': false,
-      'offline': true
-    }
-
-    store.dispatch('payment/addMethod', paymentMethodConfig)
-
     // Mount the info component when required.
     EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
       if (paymentMethodCode === 'vsfpaypal') {
@@ -35,10 +34,10 @@ export function beforeRegistration(Vue, config) {
         componentInstance.$mount('#checkout-order-review-additional')
 
         const Button = Vue.extend(PaypalButton)
-        const btnInstance = (new Button())
+        const btnInstance = (new Button({ paypal: config.paypal, storeViews: config.storeViews }))
 
         var orderBtn = document.querySelector('.place-order-btn')
-        orderBtn.style.display = 'none'
+        orderBtn['style'].display = 'none'
         var container = orderBtn.parentNode
         if (container !== null) {
           container.appendChild(document.createElement('div')).id = 'place-order-container'
@@ -46,7 +45,7 @@ export function beforeRegistration(Vue, config) {
 
         btnInstance.$mount('#place-order-container')
       } else {
-        document.querySelector('.place-order-btn').style.display = ''
+        document.querySelector('.place-order-btn')['style'].display = ''
         var el = document.querySelector('.paypal-button')
         el !== null && el.parentNode.removeChild(el)
 

@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import store from '@vue-storefront/store'
 import { currentStoreView, adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
 
 export default {
@@ -23,7 +24,7 @@ export default {
   },
   computed: {
     grandTotal () {
-      let cartTotals = this.$store.getters['cart/totals']
+      let cartTotals = store.getters['cart/totals']
       return cartTotals.find(segment => segment.code === 'grand_total').value
     }
   },
@@ -41,12 +42,13 @@ export default {
     },
     configurePaypal () {
       let defaultStyle = { 'size': 'small', 'color': 'gold', 'shape': 'pill' }
+      console.log(this.$options.paypal)
       window.paypal.Button.render({
         // Pass in env
-        env: this.$store.state.config.paypal.env,
+        env: this.$options.paypal.env,
         // Customize button (optional)
         locale: this.locale, // Should be in format: 'en_US' accordance by PayPal Api (in VSF used 'en-US')
-        style: Object.assign({}, defaultStyle, this.$store.state.config.paypal.hasOwnProperty('style') ? this.$store.state.config.paypal.style : {}),
+        style: Object.assign({}, defaultStyle, this.$options.paypal.hasOwnProperty('style') ? this.$options.paypal.style : {}),
         // Pass the payment details for your transaction
         // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
         payment: this.createPayment,
@@ -63,8 +65,8 @@ export default {
     },
     createPayment (data, actions) {
       const transactions = this.getTransactions()
-      let url = this.$store.state.config.paypal.create_endpoint
-      if (this.$store.state.config.storeViews.multistore) {
+      let url = this.$options.paypal.create_endpoint
+      if (this.$options.storeViews.multistore) {
         url = adjustMultistoreApiUrl(url)
       }
       return fetch(url, { method: 'POST',
@@ -87,8 +89,8 @@ export default {
       const vm = this
       this.$emit('payment-paypal-authorized', data)
       if (this.commit) {
-        let url = this.$store.state.config.paypal.execute_endpoint
-        if (this.$store.state.config.storeViews.multistore) {
+        let url = this.$options.paypal.execute_endpoint
+        if (this.$options.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
         return fetch(url, { method: 'POST',
