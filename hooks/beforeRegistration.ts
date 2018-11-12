@@ -1,3 +1,4 @@
+import store from '@vue-storefront/store'
 import EventBus from '@vue-storefront/core/plugins/event-bus'
 import PaypalComponent from '../components/PaymentPaypal.vue'
 import PaypalButton from '../components/Button.vue'
@@ -20,7 +21,7 @@ export function beforeRegistration(Vue, config) {
       'offline': true
     }
 
-    app.$store.dispatch('payment/addMethod', paymentMethodConfig)
+    store.dispatch('payment/addMethod', paymentMethodConfig)
 
     // Mount the info component when required.
     EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
@@ -30,11 +31,11 @@ export function beforeRegistration(Vue, config) {
 
         // Dynamically inject a component into the order review section (optional)
         const Component = Vue.extend(PaypalComponent)
-        const componentInstance = (new Component({ parent: app }))
+        const componentInstance = (new Component())
         componentInstance.$mount('#checkout-order-review-additional')
 
         const Button = Vue.extend(PaypalButton)
-        const btnInstance = (new Button({ parent: app }))
+        const btnInstance = (new Button())
 
         var orderBtn = document.querySelector('.place-order-btn')
         orderBtn.style.display = 'none'
