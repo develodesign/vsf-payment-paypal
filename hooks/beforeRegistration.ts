@@ -10,8 +10,6 @@ function placeOrder () {
 
 export function beforeRegistration(Vue, config) {
 
-  console.log('The Paypal module registration!')
-
   store.dispatch('payment/addMethod', {
     'title': 'Paypal',
     'code': 'vsfpaypal',

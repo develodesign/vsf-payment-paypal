@@ -25,7 +25,7 @@ export default {
   computed: {
     grandTotal () {
       let cartTotals = store.getters['cart/totals']
-      return cartTotals.find(segment => segment.code === 'grand_total').value
+      return cartTotals.find(seg => seg.code === 'grand_total').value
     }
   },
   methods: {
@@ -64,24 +64,7 @@ export default {
       return [{ amount: { total: this.grandTotal, currency: this.currency } }]
     },
     createPayment (data, actions) {
-      const transactions = this.getTransactions()
-      let url = this.$options.paypal.create_endpoint
-      if (this.$options.storeViews.multistore) {
-        url = adjustMultistoreApiUrl(url)
-      }
-      return fetch(url, { method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ transactions })
-      }).then(resp => { return resp.json() })
-        .then((resp) => {
-          if (resp.hasOwnProperty('id')) {
-            return resp.id
-          }
-        })
+      return store.dispatch('paypal/create', this.getTransactions())
     },
     onAuthorize (data, actions) {
       const transactions = this.getTransactions()
@@ -89,7 +72,7 @@ export default {
       const vm = this
       this.$emit('payment-paypal-authorized', data)
       if (this.commit) {
-        let url = this.$options.paypal.execute_endpoint
+        let url = this.$options.paypal.endpoint.execute
         if (this.$options.storeViews.multistore) {
           url = adjustMultistoreApiUrl(url)
         }
