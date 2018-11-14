@@ -1,5 +1,5 @@
-import { ExampleState } from '../types/ExampleState'
+import { PaypalState } from '../types/PaypalState'
 
-export const state: ExampleState = {
-  users: null
+export const state: PaypalState = {
+  trans: null
 }
