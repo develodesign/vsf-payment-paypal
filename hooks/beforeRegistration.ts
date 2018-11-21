@@ -1,5 +1,5 @@
 import store from '@vue-storefront/store'
-import EventBus from '@vue-storefront/core/plugins/event-bus'
+import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import PaypalComponent from '../components/PaymentPaypal.vue'
 import PaypalButton from '../components/Button.vue'
 
