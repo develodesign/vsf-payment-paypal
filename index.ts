@@ -1,7 +1,7 @@
 import { module } from './store'
 import { plugin } from './store/plugin'
 import { beforeRegistration } from './hooks/beforeRegistration'
-import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/module'
+import { VueStorefrontModule, VueStorefrontModuleConfig } from '@vue-storefront/core/lib/module'
 
 export const KEY = 'paypal'
 
