@@ -28,6 +28,16 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
+And enable cart sync with server (for corrected totals calculation by getters):
+
+```json
+"cart": {
+  ...
+  "synchronize": true,
+  "synchronize_totals": true
+}
+```
+
 Registration the Paypal module. Go to `./src/modules/index.ts`
 ```js
 ...
