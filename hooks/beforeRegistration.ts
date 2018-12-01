@@ -1,14 +1,7 @@
-import store from '@vue-storefront/store'
-import EventBus from '@vue-storefront/core/compatibility/plugins/event-bus'
 import PaypalComponent from '../components/PaymentPaypal.vue'
 import PaypalButton from '../components/Button.vue'
 
-// Place the order. Payload is empty as we don't have any specific info to add for this payment method '{}'
-function placeOrder () {
-  EventBus.$emit('checkout-do-placeOrder', {})
-}
-
-export function beforeRegistration(Vue, config) {
+export function beforeRegistration(Vue, config, store, isServer) {
 
   store.dispatch('payment/addMethod', {
     'title': 'Paypal',
@@ -20,11 +13,13 @@ export function beforeRegistration(Vue, config) {
   })
 
   if (!Vue.prototype.$isServer) {
-    // Mount the info component when required.
-    EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-      if (paymentMethodCode === 'vsfpaypal') {
+
+    store.watch((state) => state.checkout.paymentDetails, (prevMethodCode, newMethodCode) => {
+      if (newMethodCode === 'vsfpaypal') {
         // Register the handler for what happens when they click the place order button.
-        EventBus.$on('checkout-before-placeOrder', placeOrder)
+        Vue.prototype.$bus.$on('checkout-before-placeOrder', () => {
+          Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
+        })
 
         // Dynamically inject a component into the order review section (optional)
         const Component = Vue.extend(PaypalComponent)
@@ -48,7 +43,9 @@ export function beforeRegistration(Vue, config) {
         el !== null && el.parentNode.removeChild(el)
 
         // unregister the extensions placeorder handler
-        EventBus.$off('checkout-before-placeOrder', placeOrder)
+        Vue.prototype.$bus.$off('checkout-before-placeOrder', () => {
+          Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
+        })
       }
     })
   }
