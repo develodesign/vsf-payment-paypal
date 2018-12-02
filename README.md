@@ -38,6 +38,12 @@ And enable cart sync with server (for corrected totals calculation by getters):
 }
 ```
 
+Integrate the Paypal Button to Order Review component in theme folder:
+
+```shell
+cp ./src/modules/paypal/components/core/blocks/Checkout/OrderReview.vue ./src/themes/default/components/core/blocks/Checkout/OrderReview.vue
+```
+
 Registration the Paypal module. Go to `./src/modules/index.ts`
 ```js
 ...
