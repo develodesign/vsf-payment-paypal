@@ -23,9 +23,17 @@ export const actions: ActionTree<PaypalState, any> = {
       })
   },
   // if you are using cache in your module it's a good practice to allow developers to choose either to use it or not
-  execute ({ commit }, { user, useCache = false }) {
-    return new Promise ((resolve, reject) => {
-      resolve([])
-    })
+  execute ({}, params) {
+    let url = config.paypal.endpoint.execute
+    url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
+    return fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    }).then(resp => { return resp.json() })
   }
 }

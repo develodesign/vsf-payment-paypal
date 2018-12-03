@@ -5,7 +5,7 @@
 <script>
 import config from 'config'
 import store from '@vue-storefront/store'
-import { currentStoreView, adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
+import { currentStoreView } from '@vue-storefront/store/lib/multistore'
 
 export default {
   name: 'PaypalButton',
@@ -67,30 +67,13 @@ export default {
       return store.dispatch('paypal/create', this.getTransactions())
     },
     onAuthorize (data, actions) {
-      const transactions = this.getTransactions()
-
-      const vm = this
-      this.$emit('payment-paypal-authorized', data)
+      const self = this
       if (this.commit) {
-        let url = config.paypal.endpoint.execute
-        if (this.$options.storeViews.multistore) {
-          url = adjustMultistoreApiUrl(url)
-        }
-        return fetch(url, { method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            paymentID: data.paymentID,
-            payerID: data.payerID,
-            transactions: transactions
-          })
-        }).then((resp) => {
-          vm.$bus.$emit('checkout-do-placeOrder', resp)
+        let params = Object.assign({}, { paymentID: data.paymentID, payerID: data.payerID }, { transactions: this.getTransactions() })
+        store.dispatch('paypal/execute', params).then((resp) => {
+          self.$bus.$emit('checkout-do-placeOrder', resp)
           if (resp.status === 'success') {
-            vm.$emit('payment-paypal-completed', resp)
+            self.$emit('payment-paypal-completed', resp)
           }
         })
       }
