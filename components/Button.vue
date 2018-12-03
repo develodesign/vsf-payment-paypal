@@ -19,9 +19,7 @@ export default {
     }
   },
   mounted () {
-    !window.hasOwnProperty('paypal')
-      ? this.loadDependencies(this.configurePaypal)
-      : this.configurePaypal()
+    this.configurePaypal()
   },
   computed: {
     grandTotal () {
@@ -30,17 +28,6 @@ export default {
     }
   },
   methods: {
-    loadDependencies (callback) {
-      let jsUrl = 'https://www.paypalobjects.com/api/checkout.js'
-      let docHead = document.getElementsByTagName('head')[0]
-      let docScript = document.createElement('script')
-      docScript.type = 'text/javascript'
-      docScript.src = jsUrl
-      // When script is ready fire our callback.
-      docScript.onreadystatechange = callback
-      docScript.onload = callback
-      docHead.appendChild(docScript)
-    },
     configurePaypal () {
       let defaultStyle = { 'size': 'small', 'color': 'gold', 'shape': 'pill' }
       window.paypal.Button.render({
@@ -69,7 +56,11 @@ export default {
     onAuthorize (data, actions) {
       const self = this
       if (this.commit) {
-        let params = Object.assign({}, { paymentID: data.paymentID, payerID: data.payerID }, { transactions: this.getTransactions() })
+        let params = {
+          paymentID: data.paymentID,
+          payerID: data.payerID,
+          transactions: this.getTransactions()
+        }
         store.dispatch('paypal/execute', params).then((resp) => {
           self.$bus.$emit('checkout-do-placeOrder', resp)
           if (resp.status === 'success') {
