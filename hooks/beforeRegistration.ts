@@ -1,4 +1,3 @@
-import PaypalButton from '../components/Button.vue'
 
 export function beforeRegistration(Vue, config, store, isServer) {
 
