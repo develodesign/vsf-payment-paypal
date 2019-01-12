@@ -76,7 +76,7 @@ And add the `paypal` settings to `extensions` key:
 ```
 
 ## Paypal payment Checkout Review
-Under your theme components/core/blocks/Checkout/OrderReview.vue add the following import to your script
+Under your theme `components/core/blocks/Checkout/OrderReview.vue` add the following import to your script
 
 ```js
 import PaypalButton from 'src/modules/paypal/components/Button'
