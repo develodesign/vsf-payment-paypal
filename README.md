@@ -12,11 +12,6 @@ By hand (preferer):
 $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/src/modules/paypal
 ```
 
-Or as dependency. Add the extension to your Vue Storefront `package.json` using:
-```shell
-$ npm install vsf-payment-paypal --save
-```
-
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
 ```json
 "paypal": {
@@ -38,13 +33,7 @@ And enable cart sync with server (for corrected totals calculation by getters):
 }
 ```
 
-Integrate the Paypal Button to Order Review component in theme folder:
-
-```shell
-cp ./src/modules/paypal/components/core/blocks/Checkout/OrderReview.vue ./src/themes/default/components/core/blocks/Checkout/OrderReview.vue
-```
-
-Registration the Paypal module. Go to `./src/modules/index.ts`
+## Registration the Paypal module. Go to `./src/modules/index.ts`
 ```js
 ...
 import { GoogleAnalytics } from './google-analytics';
@@ -57,20 +46,18 @@ export const registerModules: VueStorefrontModule[] = [
 ]
 ```
 
-
 ## PayPal payment API extension
 
 Install additional extension for `vue-storefront-api`:
 ```shell
-$ mkdir -p ../vue-storefront-api/src/api/extensions/payment-paypal
-$ cp -f ./api-ext/index.js ../vue-storefront-api/src/api/extensions/payment-paypal/
+$ cp -f ./API/paypal ../vue-storefront-api/src/api/extensions/
 ```
 
 Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
 ```
 "registeredExtensions": [
     ...
-    "payment-paypal"
+    "paypal"
 ]
 ```
 
@@ -86,6 +73,40 @@ And add the `paypal` settings to `extensions` key:
       "secret": ""
     }
   }
+```
+
+## Paypal payment Checkout Review
+Under your theme components/core/blocks/Checkout/OrderReview.vue add the following import to your script
+
+```js
+import PaypalButton from 'src/modules/paypal/components/Button'
+
+export default {
+  components: {
+    ...
+    PaypalButton
+  },
+  ...
+  data () {
+    return {
+      payment: this.$store.state.checkout.paymentDetails
+    }
+  },
+```
+
+And to you template add the paypal button before `button-full`:
+
+```html
+<paypal-button v-if="payment.paymentMethod === 'vsfpaypal'"/>
+<button-full
+  v-else
+  @click.native="placeOrder"
+  data-testid="orderReviewSubmit"
+  class="place-order-btn"
+  :disabled="$v.orderReview.$invalid"
+>
+  {{ $t('Place the order') }}
+</button-full>
 ```
 
 ## Magento2 integration
