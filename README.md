@@ -23,7 +23,7 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
-## Registration the Paypal module. 
+## Registration the Paypal module
 
 Open in you editor `./src/modules/index.ts`
 
