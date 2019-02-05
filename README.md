@@ -29,8 +29,7 @@ Open in you editor `./src/modules/index.ts`
 
 ```js
 ...
-import { GoogleAnalytics } from './google-analytics';
-import { Paypal } from './paypal';
+import { Paypal } from './paypal'
 
 export const registerModules: VueStorefrontModule[] = [
   ...
