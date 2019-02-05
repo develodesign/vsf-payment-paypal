@@ -2,7 +2,7 @@ import { PaypalState } from '../types/PaypalState'
 import { ActionTree } from 'vuex';
 import * as types from './mutation-types'
 import config from 'config'
-import { adjustMultistoreApiUrl } from '@vue-storefront/store/lib/multistore'
+import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<PaypalState, any> = {
