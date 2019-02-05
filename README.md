@@ -23,7 +23,10 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 }
 ```
 
-## Registration the Paypal module. Go to `./src/modules/index.ts`
+## Registration the Paypal module. 
+
+Open in you editor `./src/modules/index.ts`
+
 ```js
 ...
 import { GoogleAnalytics } from './google-analytics';
