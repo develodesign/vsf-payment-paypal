@@ -32,8 +32,7 @@ Open in you editor `./src/modules/index.ts`
 import { Paypal } from './paypal'
 
 export const registerModules: VueStorefrontModule[] = [
-  ...
-  GoogleAnalytics,
+  ...,
   Paypal
 ]
 ```
