@@ -1,5 +1,5 @@
 
-export function beforeRegistration(Vue, config, store, isServer) {
+export function beforeRegistration({ Vue, config, store, isServer }) {
   const VSF_PAYPAL_CODE = 'vsfpaypal'
 
   store.dispatch('payment/addMethod', {
