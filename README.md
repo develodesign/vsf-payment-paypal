@@ -32,9 +32,9 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 
 Install additional extension for `vue-storefront-api`:
 ```shell
-git clone git@github.com:develodesign/vsf-payment-paypal-api.git ../vue-storefront-api/src/api/extensions/payment-paypal
+cp -fr src/extensions/paypal/api/paypal ../vue-storefront-api/src/api/extensions/
 ```
-Next see configuration [vsf-payment-paypal-api](https://github.com/develodesign/vsf-payment-paypal-api)
+
 
 
 ## Customization
