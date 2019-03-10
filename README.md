@@ -31,11 +31,30 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 ```
 
 Install additional extension for `vue-storefront-api`:
+
 ```shell
 cp -fr src/extensions/paypal/api/paypal ../vue-storefront-api/src/api/extensions/
 ```
 
+Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
+```
+"registeredExtensions": [
+    ...
+    "paypal"
+]
+```
 
+And add the `paypal` settings to `extensions` key:
+```
+  "extensions": {
+    ...
+    "paypal": {
+      "api": "https://api.sandbox.paypal.com",
+      "client": "",
+      "secret": ""
+    }
+  }
+```
 
 ## Customization
 
