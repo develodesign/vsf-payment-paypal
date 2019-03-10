@@ -34,9 +34,12 @@ module.exports = ({ config, db }) => {
         }
 
         // 3. Return the payment ID to the client
-        res.json({
-          id: response.body.id
-        });
+        if (!response.body.hasOwnProperty('error')) {
+          res.json({ id: response.body.id });
+        } else {
+          console.error(response.body);
+          return res.sendStatus(500);
+        }
     });
 
   })
