@@ -5,11 +5,10 @@ PayPal Payment extension for [vue-storefront](https://github.com/DivanteLtd/vue-
 ## The architecture
 ![Architecture diagram](doc/executing-paypal-payment-server-integration.svg)
 
-## Installation using NPM:
+## Installation
 
-Add the extension to your Vue Storefront `package.json` using:
 ```shell
-$ npm install vsf-payment-paypal --save
+$ git clone -b 0.1.x git@github.com:develodesign/vsf-payment-paypal.git src/extensions/paypal
 ```
 
 Then need push the paypal extension to `extensionList` in `src/extensions/index.js`
