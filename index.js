@@ -19,7 +19,7 @@ export default function (app, router, store, config) {
   // Add this payment method to the config.
   let paymentMethodConfig = {
     'title': 'Paypal',
-    'code': 'vsf-paypal',
+    'code': 'vsfpaypal',
     'cost': 0,
     'costInclTax': 0,
     'default': false,
@@ -30,7 +30,7 @@ export default function (app, router, store, config) {
 
   // Mount the info component when required.
   EventBus.$on('checkout-payment-method-changed', (paymentMethodCode) => {
-    if (paymentMethodCode === 'vsf-paypal') {
+    if (paymentMethodCode === 'vsfpaypal') {
       // Register the handler for what happens when they click the place order button.
       EventBus.$on('checkout-before-placeOrder', placeOrder)
 
