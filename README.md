@@ -78,9 +78,9 @@ export default {
     PaypalButton
   },
   ...
-  data () {
-    return {
-      payment: this.$store.state.checkout.paymentDetails
+  computed: {
+    payment () {
+      return this.$store.state.checkout.paymentDetails
     }
   },
 ```
