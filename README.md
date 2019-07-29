@@ -17,8 +17,8 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 "paypal": {
   "env": "sandbox",
   "endpoint": {
-    "create": "http://localhost:8080/api/ext/payment-paypal/create",
-    "execute": "http://localhost:8080/api/ext/payment-paypal/execute"
+    "create": "http://localhost:8080/api/ext/paypal/create",
+    "execute": "http://localhost:8080/api/ext/paypal/execute"
   }
 }
 ```
@@ -35,35 +35,6 @@ export const registerModules: VueStorefrontModule[] = [
   ...,
   Paypal
 ]
-```
-
-## PayPal payment API extension
-
-Install additional extension for `vue-storefront-api`:
-```shell
-$ cp -f ./API/paypal ../vue-storefront-api/src/api/extensions/
-```
-
-Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
-```
-"registeredExtensions": [
-    ...
-    "paypal"
-]
-```
-
-And add the `paypal` settings to `extensions` key:
-```
-  "extensions": {
-    "mailchimp": {
-      ...
-    },
-    "paypal": {
-      "api": "https://api.sandbox.paypal.com",
-      "client": "",
-      "secret": ""
-    }
-  }
 ```
 
 ## Paypal payment Checkout Review
@@ -98,6 +69,34 @@ And to you template add the paypal button before `button-full`:
 >
   {{ $t('Place the order') }}
 </button-full>
+```
+
+
+## PayPal payment API extension
+
+Install additional extension for `vue-storefront-api`:
+```shell
+$ cp -fr src/modules/paypal/API/paypal ../vue-storefront-api/src/api/extensions/
+```
+
+Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
+```
+"registeredExtensions": [
+    ...
+    "paypal"
+]
+```
+
+And add the `paypal` settings to `extensions` key:
+```
+  "extensions": {
+    "paypal": {
+      "api": "https://api.sandbox.paypal.com",
+      "client": "",
+      "secret": ""
+    },
+    ...
+  }
 ```
 
 ## Magento2 integration
