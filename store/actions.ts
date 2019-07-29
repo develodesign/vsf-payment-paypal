@@ -1,6 +1,5 @@
 import { PaypalState } from '../types/PaypalState'
-import { ActionTree } from 'vuex';
-import * as types from './mutation-types'
+import { ActionTree } from 'vuex'
 import config from 'config'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 
