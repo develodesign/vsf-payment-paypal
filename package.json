@@ -1,8 +1,8 @@
 {
-  "name": "@vue-storefront/payment-paypal",
-  "version": "0.2.0",
+  "name": "@develodesign/payment-paypal",
+  "version": "0.5.0",
   "description": "The PayPal module built for vue-storefront, by Develo Design.",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
