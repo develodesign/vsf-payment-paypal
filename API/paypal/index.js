@@ -27,24 +27,24 @@ module.exports = ({ config, db }) => {
 
     let order;
     try {
-      order = await payPalClient.client().execute(request);
+      order = await paypalClient.client().execute(request);
     } catch (err) {
 
       // 4. Handle any errors from the call
       console.error(err);
-      return res.send(500);
+      return res.sendStatus(500);
     }
 
     // 5. Validate the transaction details are as expected
     // if (order.result.purchase_units[0].amount.value !== '220.00') {
-    //   return res.send(400);
+    //   return res.sendStatus(400);
     // }
 
     // 6. Save the transaction in your database
     // await database.saveTransaction(orderID);
 
     // 7. Return a successful response to the client
-    return res.send(200);
+    res.json({ status: 'success' });
 
   })
 

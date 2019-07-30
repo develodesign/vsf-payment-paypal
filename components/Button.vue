@@ -28,17 +28,18 @@ export default {
     }
   },
   methods: {
-    getTransactions () {
-      return [{ amount: { total: this.grandTotal, currency: this.currency } }]
+    getAmount () {
+      return [{ amount: { value: this.grandTotal } }]
     },
     createOrder (data, actions) {
       return actions.order.create({
-        purchase_units: this.getTransactions()
+        purchase_units: this.getAmount()
       })
     },
     onApprove (data, actions) {
+      const self = this
       return actions.order.capture().then((details) => {
-        console.log('Transaction completed by ' + details.payer.name.given_name)
+        // console.log('Transaction completed by ' + details.payer.name.given_name)
         const params = {
           orderId: data.orderID
         }
