@@ -36,20 +36,20 @@ export default {
         purchase_units: this.getAmount()
       })
     },
-    onApprove (data, actions) {
-      const self = this
-      return actions.order.capture().then((details) => {
-        // console.log('Transaction completed by ' + details.payer.name.given_name)
-        const params = {
-          orderId: data.orderID
-        }
-        store.dispatch('paypal/complete', params).then((resp) => {
-          self.$bus.$emit('checkout-do-placeOrder', resp)
-          if (resp.status === 'success') {
-            self.$emit('payment-paypal-completed', resp)
-          }
-        })
-      })
+    async onApprove (data, actions) {
+      const capture = await actions.order.capture()
+
+      if (capture.status !== 'COMPLETED') {
+        return false
+      }
+
+      const completed = await store.dispatch('paypal/complete', { orderId: data.orderID })
+
+      this.$bus.$emit('checkout-do-placeOrder', completed)
+
+      if (completed.status === 'success') {
+        this.$emit('payment-paypal-completed', completed)
+      }
     },
     onCancel (data) {
       this.$emit('payment-paypal-cancelled', data)
