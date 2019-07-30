@@ -27,7 +27,7 @@ module.exports = ({ config, db }) => {
 
     let order;
     try {
-      order = await paypalClient.client().execute(request);
+      order = await paypalClient.client(config.extensions.paypal).execute(request);
     } catch (err) {
 
       // 4. Handle any errors from the call

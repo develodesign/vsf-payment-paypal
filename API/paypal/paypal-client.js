@@ -12,8 +12,8 @@ const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
  * credentials context. Use this instance to invoke PayPal APIs, provided the
  * credentials have access.
  */
-function client() {
-    return new checkoutNodeJssdk.core.PayPalHttpClient(environment());
+function client(config) {
+    return new checkoutNodeJssdk.core.PayPalHttpClient(environment(config));
 }
 
 /**
@@ -22,16 +22,19 @@ function client() {
  * This sample uses SandboxEnvironment. In production, use LiveEnvironment.
  *
  */
-function environment() {
-    let clientId = process.env.PAYPAL_CLIENT_ID || '';
-    let clientSecret = process.env.PAYPAL_CLIENT_SECRET || '';
+function environment(config) {
+    const clientId = process.env.PAYPAL_CLIENT_ID || config.clientId;
+    const clientSecret = process.env.PAYPAL_CLIENT_SECRET || config.secret;
 
-    return new checkoutNodeJssdk.core.SandboxEnvironment(
-        clientId, clientSecret
-    );
+    const method = config.env ? `${capitalizeFirstLetter(config.env)}Environment` : 'SandboxEnvironment'
+    return new checkoutNodeJssdk.core[method](clientId, clientSecret);
 }
 
-async function prettyPrint(jsonData, pre=""){
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+async function prettyPrint(jsonData, pre="") {
     let pretty = "";
     function capitalize(string) {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -55,4 +58,4 @@ async function prettyPrint(jsonData, pre=""){
     return pretty;
 }
 
-module.exports = {client: client, prettyPrint:prettyPrint};
+module.exports = {client: client, prettyPrint: prettyPrint};
