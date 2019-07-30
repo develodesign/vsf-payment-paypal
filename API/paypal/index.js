@@ -1,78 +1,50 @@
-import { apiStatus } from '../../../lib/util';
+// import { apiStatus } from '../../../lib/util';
 import { Router } from 'express';
-import request from 'request';
-const Magento2Client = require('magento2-rest-client').Magento2Client
+// const Magento2Client = require('magento2-rest-client').Magento2Client
+
+// 1a. Import the SDK package
+const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
+
+// 1b. Import the PayPal SDK client that was created in `Set up Server-Side SDK`.
+/**
+ *
+ * PayPal HTTP client dependency
+ */
+const paypalClient = require('./paypal-client');
 
 module.exports = ({ config, db }) => {
 
   let api = Router();
 
-  api.post('/create', (req, res) => {
-    const client = Magento2Client(config.magento2.api);
+  api.post('/complete', async (req, res) => {
+    // const client = Magento2Client(config.magento2.api);
 
-    console.log('request =' + JSON.stringify(req.body))
+    // 2a. Get the order ID from the request body
+    const orderId = req.body.orderId;
 
-    request.post(config.extensions.paypal.api + '/v1/payments/payment', {
-      auth: {
-        user: config.extensions.paypal.client,
-        pass: config.extensions.paypal.secret
-      },
-      body: {
-        intent: 'sale',
-        payer: { payment_method: 'paypal' },
-        transactions: req.body.transactions,
-        redirect_urls: {
-          return_url: 'https://www.mysite.com', // TODO: move to local.json
-          cancel_url: 'https://www.mysite.com'
-        }
-      },
-      json: true
-    }, function (err, response) {
-        if (err) {
-          console.error(err);
-          return res.sendStatus(500);
-        }
+    // 3. Call PayPal to get the transaction details
+    let request = new checkoutNodeJssdk.orders.OrdersGetRequest(orderId);
 
-        // 3. Return the payment ID to the client
-        if (!response.body.hasOwnProperty('error')) {
-          res.json({ id: response.body.id });
-        } else {
-          console.error(response.body);
-          return res.sendStatus(500);
-        }
-    });
+    let order;
+    try {
+      order = await paypalClient.client(config.extensions.paypal).execute(request);
+    } catch (err) {
 
-  })
+      // 4. Handle any errors from the call
+      console.error(err);
+      return res.sendStatus(500);
+    }
 
-  api.post('/execute', (req, res) => {
-    const client = Magento2Client(config.magento2.api);
+    // 5. Validate the transaction details are as expected
+    // if (order.result.purchase_units[0].amount.value !== '220.00') {
+    //   return res.sendStatus(400);
+    // }
 
-    // 2. Get the payment ID and the payer ID from the request body.
-    var paymentID = req.body.paymentID;
-    var payerID = req.body.payerID;
+    // 6. Save the transaction in your database
+    // await database.saveTransaction(orderID);
 
-    // 3. Call /v1/payments/payment/PAY-XXX/execute to finalize the payment.
-    request.post(config.extensions.paypal.api + '/v1/payments/payment/' + paymentID + '/execute', {
-      auth: {
-        user: config.extensions.paypal.client,
-        pass: config.extensions.paypal.secret
-      },
-      body: {
-        payer_id: payerID,
-        transactions: req.body.transactions
-      },
-      json: true
-    }, function (err, response) {
-      if (err) {
-        console.error(err);
-        return res.sendStatus(500);
-      }
-
-      // 4. Return a success response to the client
-      res.json({
-        status: 'success'
-      });
-    });
+    // 7. Return a successful response to the client
+    res.json({ status: 'success' });
 
   })
 

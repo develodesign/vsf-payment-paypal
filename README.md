@@ -12,13 +12,11 @@ By hand (preferer):
 $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/src/modules/paypal
 ```
 
-Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `production`.
 ```json
 "paypal": {
-  "env": "sandbox",
+  "clientId": "",
   "endpoint": {
-    "create": "http://localhost:8080/api/ext/paypal/create",
-    "execute": "http://localhost:8080/api/ext/paypal/execute"
+    "complete": "http://localhost:8080/api/ext/paypal/complete"
   }
 }
 ```
@@ -74,9 +72,13 @@ And to you template add the paypal button before `button-full`:
 
 ## PayPal payment API extension
 
-Install additional extension for `vue-storefront-api`:
+Setup dependency to api:
+`cd ../vue-storefront-api`
+`yarn add -W @paypal/checkout-server-sdk`
+
+Install extension to `vue-storefront-api`:
 ```shell
-$ cp -fr src/modules/paypal/API/paypal ../vue-storefront-api/src/api/extensions/
+$ cp -fr src/modules/paypal/api/paypal ../vue-storefront-api/src/api/extensions/
 ```
 
 Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
@@ -88,11 +90,14 @@ Go to api config  `./vue-storefront-api/config/local.json` and register the Payp
 ```
 
 And add the `paypal` settings to `extensions` key:
+
+Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `live`.
+
 ```
   "extensions": {
     "paypal": {
-      "api": "https://api.sandbox.paypal.com",
-      "client": "",
+      "env": "sandbox",
+      "clientId": "",
       "secret": ""
     },
     ...
