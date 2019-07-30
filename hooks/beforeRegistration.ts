@@ -14,19 +14,17 @@ export function beforeRegistration({ Vue, config, store, isServer }) {
   }
 
   if (!Vue.prototype.$isServer) {
-
-    let jsUrl = 'https://www.paypalobjects.com/api/checkout.js'
-    let docHead = document.getElementsByTagName('head')[0]
-    let docScript = document.createElement('script')
-    docScript.type = 'text/javascript'
-    docScript.src = jsUrl
-    docHead.appendChild(docScript)
+    const clientId = config.paypal.clientId
+    const sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+    var script = document.createElement('script')
+    script.setAttribute('src', sdkUrl)
+    document.head.appendChild(script)
 
     let currentPaymentMethodIsPaypal = false
     store.watch((state) => state.checkout.paymentDetails, (prevMethodCode, newMethodCode) => {
       currentPaymentMethodIsPaypal = newMethodCode === VSF_PAYPAL_CODE
     })
-    
+
     const invokePlaceOrder = () => {
       if (currentPaymentMethodIsPaypal) {
         Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})
