@@ -40,9 +40,9 @@ export default {
       return actions.order.capture().then((details) => {
         console.log('Transaction completed by ' + details.payer.name.given_name)
         const params = {
-          orderID: data.orderID
+          orderId: data.orderID
         }
-        store.dispatch('paypal/transaction-complete', params).then((resp) => {
+        store.dispatch('paypal/complete', params).then((resp) => {
           self.$bus.$emit('checkout-do-placeOrder', resp)
           if (resp.status === 'success') {
             self.$emit('payment-paypal-completed', resp)
