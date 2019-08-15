@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     grandTotal () {
-      let cartTotals = store.getters['cart/totals']
+      let cartTotals = store.getters['cart/getTotals']
       return cartTotals.find(seg => seg.code === 'grand_total').value
     }
   },
