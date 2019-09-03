@@ -1,7 +1,7 @@
+import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
 export function beforeRegistration({ Vue, config, store, isServer }) {
   const VSF_PAYPAL_CODE = 'vsfpaypal'
-
   store.dispatch('payment/addMethod', {
     'title': 'Paypal',
     'code': VSF_PAYPAL_CODE,
@@ -12,8 +12,10 @@ export function beforeRegistration({ Vue, config, store, isServer }) {
   })
 
   if (!Vue.prototype.$isServer) {
+    const storeView = currentStoreView()
+    const { currencyCode } = storeView.i18n
     const clientId = config.paypal.clientId
-    const sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+    const sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currencyCode}`
     var script = document.createElement('script')
     script.setAttribute('src', sdkUrl)
     document.head.appendChild(script)
