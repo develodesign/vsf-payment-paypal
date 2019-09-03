@@ -11,7 +11,7 @@ export default {
   data () {
     const storeView = currentStoreView()
     return {
-      currency: storeView.i18n.currencyCode,
+      currencyCode: storeView.i18n.currencyCode,
       locale: storeView.i18n.defaultLocale.replace('-', '_') // Converting to PayPal format
     }
   },
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     getAmount () {
-      return [{ amount: { value: this.grandTotal } }]
+      return [{ amount: { value: this.grandTotal, currency_code: this.currencyCode } }]
     },
     createOrder (data, actions) {
       return actions.order.create({
