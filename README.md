@@ -117,9 +117,10 @@ Also we can use `paypal.style` option for more customizable PayPal button view. 
 "paypal": {
   ...
   "style": {
-    "size": "small",
-    "color": "gold",
-    "shape": "pill"
-  }
+        "layout": "horizontal",
+        "color": "black",
+        "label": "pay",
+        "tagline": false
+   }
 }
 ```
