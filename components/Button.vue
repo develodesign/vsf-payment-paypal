@@ -24,7 +24,8 @@ export default {
   mounted () {
     window.paypal.Buttons({
       createOrder: this.createOrder,
-      onApprove: this.onApprove
+      onApprove: this.onApprove,
+      style: this.$store.state.config.paypal.hasOwnProperty('style') ? this.$store.state.config.paypal.style : {}
     }).render('.paypal-button')
   },
   computed: {
