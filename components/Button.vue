@@ -156,7 +156,7 @@ export default {
         // create order using Server Side methods same as magento 2....
         return store.dispatch('payment-paypal-magento2/setExpressCheckout', {
           cart_id: store.getters['cart/getCartToken'],
-          brand_name: config.jsp.name,
+          brand_name: '',
           locale: this.locale,
           currency_code: this.currencyCode,
           purchase_units: this.getPurchaseUnits(),
@@ -189,7 +189,7 @@ export default {
         return actions.order.create({
           purchase_units: this.getPurchaseUnits(),
           application_context: {
-            brand_name: config.jsp.name,
+            brand_name: '',
             shipping_preference: 'SET_PROVIDED_ADDRESS'
           }
         })
