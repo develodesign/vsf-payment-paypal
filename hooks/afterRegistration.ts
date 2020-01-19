@@ -3,9 +3,9 @@ import PaypalButton from '../components/Button.vue'
 import * as types from '../store/mutation-types'
 
 export function afterRegistration({ Vue, config, store, isServer }) {
-  // const VSF_PAYPAL_CODE = 'vsfpaypal'
   const VSF_PAYPAL_CODE = 'paypal_express'
   let correctPaymentMethod = false
+
   const placeOrder = () => {
     if (correctPaymentMethod) {
       // Vue.prototype.$bus.$emit('checkout-do-placeOrder', {})

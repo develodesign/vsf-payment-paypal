@@ -6,7 +6,7 @@ import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 // it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<PaypalState, any> = {
   complete({ }, params) {
-    let url = config.paymentPaypalMagento2.endpoint.complete
+    let url = config.paypal.endpoint.complete
     url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
     return fetch(url, {
       method: 'POST',
@@ -19,7 +19,7 @@ export const actions: ActionTree<PaypalState, any> = {
     }).then(resp => { return resp.json() })
   },
   setExpressCheckout({ }, params) {
-    let url = config.paymentPaypalMagento2.endpoint.setExpressCheckout
+    let url = config.paypal.endpoint.setExpressCheckout
     url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
     return fetch(url, {
       method: 'POST',

@@ -5,7 +5,6 @@
 <script>
 import store from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
-import config from 'config'
 
 export default {
   name: 'PaypalButton',

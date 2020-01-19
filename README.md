@@ -1,6 +1,6 @@
 # Vue Storefront PayPal Payment Extension using Magento 2
 
-PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), forked from [Develo Design](https://github.com/develodesign/vsf-payment-paypal).
+PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
 
 ![Demo](docs/demo.png)
 
@@ -41,15 +41,15 @@ mounted () {
 By hand (preferer):
 
 ```shell
-$ git clone git@github.com:tonyisworking/vsf-payment-paypal-magento2.git ./vue-storefront/src/modules/payment-paypal-magento2
+$ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/src/modules/paypal
 ```
 
 ```json
-"paymentPaypalMagento2": {
+"paypal": {
   "clientId": "",
   "endpoint": {
     "complete": "http://localhost:8080/api/ext/paypal/complete",
-    "setExpressCheckout": "http://localhost:8080/api/ext/payment-paypal-magento2/setExpressCheckout"
+    "setExpressCheckout": "http://localhost:8080/api/ext/paypal/setExpressCheckout"
   }
 }
 ```
@@ -60,11 +60,11 @@ Open in you editor `./src/modules/index.ts`
 
 ```js
 ...
-import { PaymentPaypalMagento2 } from './payment-paypal-magento2';
+import { Paypal } from './paypal';
 
 export const registerModules: VueStorefrontModule[] = [
   ...,
-  PaymentPaypalMagento2
+  Paypal
 ]
 ```
 
@@ -73,7 +73,7 @@ export const registerModules: VueStorefrontModule[] = [
 Under your theme `components/core/blocks/Checkout/OrderReview.vue` add the following import to your script
 
 ```js
-import PaypalButton from 'src/modules/payment-paypal-magento2/components/Button'
+import PaypalButton from '@develodesign/vsf-payment-paypal/components/Button'
 
 export default {
   components: {
@@ -113,7 +113,7 @@ Setup dependency to api:
 Install extension to `vue-storefront-api`:
 
 ```shell
-$ cp -fr src/modules/payment-paypal-magento2/api/payment-paypal-magento2 ../vue-storefront-api/src/api/extensions/
+$ cp -fr src/modules/paypal/api/paypal ../vue-storefront-api/src/api/extensions/
 ```
 
 Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
@@ -121,17 +121,17 @@ Go to api config  `./vue-storefront-api/config/local.json` and register the Payp
 ```json
 "registeredExtensions": [
     ...
-    "payment-paypal-magento2"
+    "paypal"
 ]
 ```
 
-And add the `paymentPaypalMagento2` settings to `extensions` key:
+And add the `paypal` settings to `extensions` key:
 
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `live`.
 
 ```json
   "extensions": {
-    "paymentPaypalMagento2": {
+    "paypal": {
       "env": "sandbox",
       "clientId": "",
       "secret": "",
@@ -147,7 +147,7 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 
 Turn on Paypal Express and provide the API credentials using the built in Paypal module. Enable only Express Checkout.
 
-Other Paypal methods are not supportted or tested right now.
+Other Paypal methods are not supported or tested right now.
 
 ## Customization
 

@@ -5,7 +5,7 @@ import { afterRegistration } from './hooks/afterRegistration'
 
 export const KEY = 'payment-paypal-magento2'
 
-export const PaymentPaypalMagento2 = createModule({
+export const Paypal = createModule({
   key: KEY,
   store: { modules: [{ key: KEY, module }] },
   beforeRegistration,
