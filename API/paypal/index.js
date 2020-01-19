@@ -1,6 +1,5 @@
 import { apiStatus } from '../../../lib/util';
 import { Router } from 'express';
-// const Magento2Client = require('magento2-rest-client').Magento2Client
 import config from 'config';
 
 // 1a. Import the SDK package

@@ -108,7 +108,7 @@ And to you template add the paypal button before `button-full`:
 Setup dependency to api:
 `cd ../vue-storefront-api`
 `yarn add -W @paypal/checkout-server-sdk`
-`npm add paypal-nvp-api`
+`yarn add -W paypal-nvp-api`
 
 Install extension to `vue-storefront-api`:
 
