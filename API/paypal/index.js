@@ -1,4 +1,3 @@
-import { apiStatus } from '../../../lib/util';
 import { Router } from 'express';
 import config from 'config';
 
@@ -42,6 +41,8 @@ module.exports = ({ config, db }) => {
   api.post('/setExpressCheckout', async (req, res) => {
     try {
       const query = setPaypalNVPQuery(req.body);
+      // console.log(query);
+
       paypalNVP.request('SetExpressCheckout', query).then((result) => {
         if (result.TOKEN) {
           return res.json({
