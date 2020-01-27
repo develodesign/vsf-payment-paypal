@@ -34,6 +34,12 @@ export default {
   computed: {
     platformTotal () {
       return store.state.cart.platformTotalSegments
+    },
+    shippingDetails () {
+      return store.state.checkout.shippingDetails
+    },
+    paymentDetails () {
+      return store.state.checkout.paymentDetails
     }
   },
   methods: {
@@ -91,26 +97,26 @@ export default {
     },
     getBillingAddress () {
       return {
-        address_line_1: store.state.checkout.paymentDetails.streetAddress,
-        address_line_2: store.state.checkout.paymentDetails.apartmentNumber,
-        admin_area_1: store.state.checkout.paymentDetails.region_code,
-        admin_area_2: store.state.checkout.paymentDetails.city,
-        postal_code: store.state.checkout.paymentDetails.zipCode,
-        country_code: store.state.checkout.paymentDetails.country
+        address_line_1: this.paymentDetails.streetAddress,
+        address_line_2: this.paymentDetails.apartmentNumber,
+        admin_area_1: this.paymentDetails.region_code,
+        admin_area_2: this.paymentDetails.city,
+        postal_code: this.paymentDetails.zipCode,
+        country_code: this.paymentDetails.country
       }
     },
     getShippingAddress () {
       return {
         name: {
-          full_name: store.state.checkout.shippingDetails.firstName + ' ' + store.state.checkout.shippingDetails.lastName
+          full_name: this.shippingDetails.firstName + ' ' + this.shippingDetails.lastName
         },
         address: {
-          address_line_1: store.state.checkout.shippingDetails.streetAddress,
-          address_line_2: store.state.checkout.shippingDetails.apartmentNumber,
-          admin_area_1: store.state.checkout.shippingDetails.region_code,
-          admin_area_2: store.state.checkout.shippingDetails.city,
-          postal_code: store.state.checkout.shippingDetails.zipCode,
-          country_code: store.state.checkout.shippingDetails.country
+          address_line_1: this.shippingDetails.streetAddress,
+          address_line_2: this.shippingDetails.apartmentNumber,
+          admin_area_1: this.shippingDetails.region_code,
+          admin_area_2: this.shippingDetails.city,
+          postal_code: this.shippingDetails.zipCode,
+          country_code: this.shippingDetails.country
         }
       }
     },
@@ -141,13 +147,13 @@ export default {
     async createOrderNvp (data, actions) {
       return store.dispatch('cart/syncTotals', {
         methodsData: {
-          country: store.state.checkout.shippingDetails.country,
-          zipCode: store.state.checkout.shippingDetails.zipCode,
-          region: store.state.checkout.shippingDetails.region,
-          region_id: store.state.checkout.shippingDetails.regionId,
-          region_code: store.state.checkout.shippingDetails.regionCode,
-          method_code: store.state.checkout.shippingDetails.shippingMethod,
-          carrier_code: store.state.checkout.shippingDetails.shippingCarrier,
+          country: this.shippingDetails.country,
+          zipCode: this.shippingDetails.zipCode,
+          region: this.shippingDetails.region,
+          region_id: this.shippingDetails.regionId,
+          region_code: this.shippingDetails.regionCode,
+          method_code: this.shippingDetails.shippingMethod,
+          carrier_code: this.shippingDetails.shippingCarrier,
           payment_method: null
         },
         forceServerSync: true
@@ -171,38 +177,7 @@ export default {
         })
       })
     },
-    async createOrderRest (data, actions) {
-      return store.dispatch('cart/syncTotals', {
-        methodsData: {
-          country: store.state.checkout.shippingDetails.country,
-          zipCode: store.state.checkout.shippingDetails.zipCode,
-          region: store.state.checkout.shippingDetails.region,
-          region_id: store.state.checkout.shippingDetails.regionId,
-          region_code: store.state.checkout.shippingDetails.regionCode,
-          method_code: store.state.checkout.shippingDetails.shippingMethod,
-          carrier_code: store.state.checkout.shippingDetails.shippingCarrier,
-          payment_method: null
-        },
-        forceServerSync: true
-      }).then(() => {
-        return actions.order.create({
-          purchase_units: this.getPurchaseUnits(),
-          application_context: {
-            brand_name: '',
-            shipping_preference: 'SET_PROVIDED_ADDRESS'
-          }
-        })
-      })
-    },
     async onApprove (data, actions) {
-      const totals = this.$store.getters['cart/getTotals']
-      this.$store.commit('google-tag-manager/SET_ORDER_DETAILS', {
-        total_due: totals.find((t) => t['code'].toString() === 'grand_total')['value'],
-        tax_amount: totals.find((t) => t['code'].toString() === 'tax')['value'],
-        shipping_amount: totals.find((t) => t['code'].toString() === 'shipping')['value'],
-        coupon_code: this.$store.getters['cart/getCoupon'] ? this.$store.getters['cart/getCoupon']['code'] : '',
-        cartId: this.$store.getters['cart/getCartToken']
-      })
       let additionalMethod = {
         // magento 2 fields expects
         paypal_express_checkout_token: this.tokenId,
