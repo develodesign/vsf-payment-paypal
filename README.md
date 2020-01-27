@@ -1,13 +1,23 @@
 # This is the PayPal Payment module for Vue Storefront
 
-PayPal Payment module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront), by [Develo Design](https://www.develodesign.co.uk).
+
+PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
 
 ![Demo](docs/demo.png)
 
+Tested with 1.10.x
 
-## Installation:
+This module is for those who want to use Magento 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 2.2.x. This allows for backend Magento2 management of the Order lifecycle.
+
+***Note this only tested on US and using region_code, region_id, and region modifications on the cart/order syncTotals functions and in the Checkout Addresses***
+
+This module can also be used with the newer API calls easily, as address and cart items are set to be transferred to Paypal SmartButton.
+
+
+## Installation
 
 By hand (preferer):
+
 ```shell
 $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/src/modules/paypal
 ```
@@ -16,7 +26,8 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 "paypal": {
   "clientId": "",
   "endpoint": {
-    "complete": "http://localhost:8080/api/ext/paypal/complete"
+    "complete": "http://localhost:8080/api/ext/paypal/complete",
+    "setExpressCheckout": "http://localhost:8080/api/ext/paypal/setExpressCheckout"
   }
 }
 ```
@@ -27,7 +38,7 @@ Open in you editor `./src/modules/index.ts`
 
 ```js
 ...
-import { Paypal } from './paypal'
+import { Paypal } from './paypal';
 
 export const registerModules: VueStorefrontModule[] = [
   ...,
@@ -36,10 +47,11 @@ export const registerModules: VueStorefrontModule[] = [
 ```
 
 ## Paypal payment Checkout Review
+
 Under your theme `components/core/blocks/Checkout/OrderReview.vue` add the following import to your script
 
 ```js
-import PaypalButton from 'src/modules/paypal/components/Button'
+import PaypalButton from '@develodesign/vsf-payment-paypal/components/Button'
 
 export default {
   components: {
@@ -57,7 +69,7 @@ export default {
 And to you template add the paypal button before `button-full`:
 
 ```html
-<paypal-button v-if="payment.paymentMethod === 'vsfpaypal'"/>
+<paypal-button v-if="payment.paymentMethod === 'paypal_express'"/>
 <button-full
   v-else
   @click.native="placeOrder"
@@ -69,20 +81,22 @@ And to you template add the paypal button before `button-full`:
 </button-full>
 ```
 
-
 ## PayPal payment API extension
 
 Setup dependency to api:
 `cd ../vue-storefront-api`
 `yarn add -W @paypal/checkout-server-sdk`
+`yarn add -W paypal-nvp-api`
 
 Install extension to `vue-storefront-api`:
+
 ```shell
 $ cp -fr src/modules/paypal/api/paypal ../vue-storefront-api/src/api/extensions/
 ```
 
 Go to api config  `./vue-storefront-api/config/local.json` and register the Paypal Api extension:
-```
+
+```json
 "registeredExtensions": [
     ...
     "paypal"
@@ -93,12 +107,15 @@ And add the `paypal` settings to `extensions` key:
 
 Add the following also to your `config/local.json` need set `paypal.env` to `sandbox` or `live`.
 
-```
+```json
   "extensions": {
     "paypal": {
       "env": "sandbox",
       "clientId": "",
-      "secret": ""
+      "secret": "",
+      "username": "",
+      "password": "",
+      "signature": ""
     },
     ...
   }
@@ -106,21 +123,20 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 
 ## Magento2 integration
 
-This API extension execute payment to PayPal gateway.
-It use `develodesign/m2-paypal-payment` [The custom Paypal payment method for Magento2](https://github.com/develodesign/m2-paypal-payment) composer module so you have to install it in your Magento instance.
+Turn on Paypal Express and provide the API credentials using the built in Paypal module. Enable only Express Checkout.
+
+Other Paypal methods are not supported or tested right now.
 
 ## Customization
 
 Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
 
+In Button.vue, the button takes prop styling
+
 ```json
-"paypal": {
-  ...
-  "style": {
-        "layout": "horizontal",
-        "color": "black",
-        "label": "pay",
-        "tagline": false
-   }
+"style": {
+  "size": "small",
+  "color": "gold",
+  "shape": "pill"
 }
 ```
