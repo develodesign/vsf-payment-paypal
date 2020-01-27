@@ -10,8 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored for Magento2 and compatible with 2.2.x built in Paypal Express - able to read transaction data from Paypal and do Refunds
 - Use NVP methods similar to how Magento 2 implements paypal
 
-## [0.7.0] - 09.27.2019
+## [0.7.2] - 09.12.2019
+- Added support the style attribute for any buttons customizations. - @dimasch (#114)
 
+## [0.7.1] - 08.12.2019
+- Added loader for the place order process. Backward compatibility with support old getters. - @dimasch (#112)
+
+## [0.7.0] - 27.09.2019
 - Compatibility for VSF 1.10.x - updated the module signature - @dimasch (#107)
 
 ## [0.5.0] - 30.07.2019

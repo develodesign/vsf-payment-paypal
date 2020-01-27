@@ -1,4 +1,5 @@
-# Vue Storefront PayPal Payment Extension using Magento 2
+# This is the PayPal Payment module for Vue Storefront
+
 
 PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
 
@@ -12,29 +13,6 @@ This module is for those who want to use Magento 2's built in Paypal extension t
 
 This module can also be used with the newer API calls easily, as address and cart items are set to be transferred to Paypal SmartButton.
 
-In Button.vue change:
-
-```js
-mounted () {
-  window.paypal.Buttons({
-    ...
-    createOrder: this.createOrderNvp,
-    ...
-  }).render('.paypal-button')
-},
-```
-
-to
-
-```js
-mounted () {
-  window.paypal.Buttons({
-    ...
-    createOrder: this.createOrderRest,
-    ...
-  }).render('.paypal-button')
-},
-```
 
 ## Installation
 
