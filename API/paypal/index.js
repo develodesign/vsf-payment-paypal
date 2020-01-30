@@ -1,3 +1,4 @@
+import { apiStatus } from '../../../lib/util';
 import { Router } from 'express';
 import config from 'config';
 
@@ -41,17 +42,12 @@ module.exports = ({ config, db }) => {
   api.post('/setExpressCheckout', async (req, res) => {
     try {
       const query = setPaypalNVPQuery(req.body);
-      // console.log(query);
 
       paypalNVP.request('SetExpressCheckout', query).then((result) => {
-        if (result.TOKEN) {
-          return res.json({
-            status: 'success',
-            token: result.TOKEN
-          });
+        if (result.hasOwnProperty('TOKEN')) {
+          apiStatus(res, { success: true, token: result.TOKEN }, 200);
         } else {
-          console.trace(result);
-          return res.sendStatus(500);
+          apiStatus(res, { success: false, error: { message: result.L_LONGMESSAGE0 } }, 500);
         }
       }).catch((err) => {
         console.trace(query);
@@ -81,7 +77,7 @@ function setPaypalNVPQuery(pay) {
     'PAYMENTREQUEST_0_PAYMENTREQUESTID': pay.purchase_units[0].reference_id,
 
     'PAYMENTREQUEST_0_PAYMENTREASON': 'None',
-    'PAYMENTREQUEST_0_PAYMENTACTION': 'Order',
+    'PAYMENTREQUEST_0_PAYMENTACTION': 'Sale',
     'RETURNURL': pay.return_url,
     'CANCELURL': pay.cancel_url,
     'ADDROVERRIDE': 1,
