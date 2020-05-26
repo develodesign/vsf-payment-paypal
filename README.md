@@ -26,8 +26,8 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 "paypal": {
   "clientId": "",
   "endpoint": {
-    "complete": "http://localhost:8080/api/ext/paypal/complete",
-    "setExpressCheckout": "http://localhost:8080/api/ext/paypal/setExpressCheckout"
+    "complete": "/api/ext/paypal/complete",
+    "setExpressCheckout": "/api/ext/paypal/setExpressCheckout"
   }
 }
 ```
