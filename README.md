@@ -126,12 +126,10 @@ Other Paypal methods are not supported or tested right now.
 
 Also we can use `paypal.style` option for more customizable PayPal button view. For more info [PayPal](https://developer.paypal.com/demo/checkout/#/pattern/checkout).
 
-In Button.vue, the button takes prop styling
+In OrderReview.vue, the button takes prop styling
 
-```json
-"style": {
-  "size": "small",
-  "color": "gold",
-  "shape": "pill"
-}
+```html
+  <paypal-button :styling="{ color: 'black' }"
 ```
+
+
