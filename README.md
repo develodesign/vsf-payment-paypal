@@ -34,16 +34,17 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 
 ## Registration the Paypal module
 
-Open in you editor `./src/modules/index.ts`
+Let's edit `config/modules.ts`
+Module registration lives here: `./src/themes/default/config/modules.ts` or `./src/themes/capybara/config/modules.ts` or in you custom theme.
 
 ```js
 ...
-import { Paypal } from './paypal';
+import { PaymentPaypalModule } from '../../../modules/paypal';
 
-export const registerModules: VueStorefrontModule[] = [
-  ...,
-  Paypal
-]
+export function registerClientModules () {
+  ...
+  registerModule(PaymentPaypalModule)
+}
 ```
 
 ## Paypal payment Checkout Review
@@ -84,6 +85,10 @@ And to you template add the paypal button before `button-full`:
 ## PayPal payment API extension
 
 Install extension to `vue-storefront-api`:
+
+```shell
+yarn add @paypal/checkout-server-sdk paypal-nvp-api
+```
 
 ```shell
 $ cp -fr src/modules/paypal/api/paypal ../vue-storefront-api/src/api/extensions/

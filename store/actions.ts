@@ -4,7 +4,6 @@ import config from 'config'
 import { adjustMultistoreApiUrl } from '@vue-storefront/core/lib/multistore'
 import { processURLAddress } from '@vue-storefront/core/helpers'
 
-// it's a good practice for all actions to return Promises with effect of their execution
 export const actions: ActionTree<PaypalState, any> = {
   complete({ }, params) {
     let url = processURLAddress(config.paypal.endpoint.complete)
