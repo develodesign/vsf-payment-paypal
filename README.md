@@ -5,11 +5,9 @@ PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteL
 
 ![Demo](docs/demo.png)
 
-Tested with 1.10.x
+Tested with VSF 1.12.x
 
-This module is for those who want to use Magento 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 2.2.x. This allows for backend Magento2 management of the Order lifecycle.
-
-***Note this only tested on US and using region_code, region_id, and region modifications on the cart/order syncTotals functions and in the Checkout Addresses***
+This module is for those who want to use Magento 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 2.3.x. This allows for backend Magento2 management of the Order lifecycle.
 
 This module can also be used with the newer API calls easily, as address and cart items are set to be transferred to Paypal SmartButton.
 
