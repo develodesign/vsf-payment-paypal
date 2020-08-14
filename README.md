@@ -7,7 +7,7 @@ PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteL
 
 Tested with VSF 1.12.x
 
-This module is for those who want to use Magento 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 2.3.x. This allows for backend Magento2 management of the Order lifecycle.
+This module is for those who want to use Magento 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 2.2.x and 2.3.x. This allows for backend Magento2 management of the Order lifecycle.
 
 This module can also be used with the newer API calls easily, as address and cart items are set to be transferred to Paypal SmartButton.
 
@@ -45,9 +45,9 @@ export function registerClientModules () {
 }
 ```
 
-## Paypal payment Checkout Review
+## Integration to the Default VSF theme (vsf-default)
 
-Under your theme `components/core/blocks/Checkout/OrderReview.vue` add the following import to your script
+Add the following to your component `components/core/blocks/Checkout/OrderReview.vue`:
 
 ```js
 import PaypalButton from '@develodesign/vsf-payment-paypal/components/Button'
@@ -62,10 +62,10 @@ export default {
     payment () {
       return this.$store.state.checkout.paymentDetails
     }
-  },
+  }
 ```
 
-And to you template add the paypal button before `button-full`:
+And add the paypal button before `button-full` component:
 
 ```html
 <paypal-button v-if="payment.paymentMethod === 'paypal_express'"/>
@@ -80,12 +80,41 @@ And to you template add the paypal button before `button-full`:
 </button-full>
 ```
 
+## Integration to the Capybara theme (vsf-capybara)
+
+Add the following to your component `components/organisms/o-confirm-order.vue`:
+
+```js
+import PaypalButton from '@develodesign/vsf-payment-paypal/components/Button'
+
+export default {
+  components: {
+    ...
+    PaypalButton
+  }
+```
+*** The computed `paymentDetails` in o-confirm-order.vue available out of the box in Capybara theme. ***
+
+And add the Paypal component before place order button. Don't forget to add the `v-else` condition for the place order `SfButton` component.
+
+```html
+<paypal-button :styling="{ color: 'black' }" v-if="paymentDetails.paymentMethod === 'paypal_express'"/>
+<SfButton
+  v-else
+  class="sf-button--full-width actions__button"
+  :disabled="$v.orderReview.$invalid || !productsInCart.length"
+  @click="placeOrder"
+>
+  {{ $t("Place the order") }}
+</SfButton>
+```
+
 ## PayPal payment API extension
 
 Install extension to `vue-storefront-api`:
 
 ```shell
-yarn add @paypal/checkout-server-sdk paypal-nvp-api
+yarn add -W @paypal/checkout-server-sdk paypal-nvp-api
 ```
 
 ```shell
