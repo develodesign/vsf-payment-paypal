@@ -3,7 +3,7 @@
 
 PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
 
-![Demo](docs/demo.png)
+![default](https://imgur.com/QFCUX0R.jpg)
 
 Tested with VSF 1.12.x
 
