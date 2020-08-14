@@ -82,7 +82,7 @@ And add the paypal button before `button-full` component:
 
 ## Integration to the Capybara theme (vsf-capybara)
 
-[capybara](https://imgur.com/Kgm9McA)
+![capybara](https://imgur.com/Kgm9McA)
 
 Add the following to your component `components/organisms/o-confirm-order.vue`:
 
