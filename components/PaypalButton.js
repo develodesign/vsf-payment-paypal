@@ -41,27 +41,23 @@ export const PaypalButton = {
   methods: {
     renderButton () {
       window.paypal.Buttons({
-        style: this.styling,
         createOrder: this.onCreateOrder,
-        onApprove: this.onApprove
+        onApprove: this.onApprove,
+        style: this.styling
       }).render('.paypal-button')
     },
     getSegmentTotal (name) {
       const total = this.platformTotal.filter(segment => {
         return segment.code === name
       })
-      if (total.length > 0) {
-        return Math.abs(parseFloat(total[0].value).toFixed(2))
-      } else {
-        return 0
-      }
+      return total.length > 0 ? Math.abs(parseFloat(total[0].value).toFixed(2)) : 0
     },
     getPurchaseUnits () {
       return [
         {
           reference_id: this.$store.getters['cart/getCartToken'],
           // payment_instruction: '',
-          description: 'Need to return an item? We accept returns for unused items in packaging 60 days after you order', // purchase description
+          description: this.$t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
           items: this.getProducts(),
           amount: this.getAmount(),
           shipping: this.getShippingAddress()

@@ -100,7 +100,7 @@ export default {
 And add the Paypal component before place order button. Don't forget to add the `v-else` condition for the place order `SfButton` component.
 
 ```html
-<paypal-button :styling="{ color: 'black' }" v-if="paymentDetails.paymentMethod === 'paypal_express'"/>
+<paypal-button v-if="paymentDetails.paymentMethod === 'paypal_express' && !$v.orderReview.$invalid"/>
 <SfButton
   v-else
   class="sf-button--full-width actions__button"
