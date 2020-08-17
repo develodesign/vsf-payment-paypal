@@ -5,6 +5,38 @@ export const getters: GetterTree<PaypalState, any> = {
     getPlatformTotalSegments: (state, getters, rootState, rootGetters) => rootState.cart.platformTotalSegments,
     getShippingDetails: (state, getters, rootState, rootGetters) => rootState.checkout.shippingDetails,
     getPaymentDetails: (state, getters, rootState, rootGetters) => rootState.checkout.paymentDetails,
+    getAmount: (state, getters, rootState, rootGetters) => {
+        const getSegmentTotal = (name) => {
+            const total = getters.getPlatformTotalSegments.filter(segment => {
+              return segment.code === name
+            })
+            return total.length > 0 ? Math.abs(parseFloat(total[0].value.toFixed(2))) : 0
+        }
+        const currencyCode = rootState.storeView.i18n.currencyCode
+
+        return {
+          breakdown: {
+            item_total: {
+              currency_code: currencyCode,
+              value: getSegmentTotal('subtotal')
+            },
+            shipping: {
+              currency_code: currencyCode,
+              value: getSegmentTotal('shipping')
+            },
+            discount: {
+              currency_code: currencyCode,
+              value: getSegmentTotal('discount')
+            },
+            tax_total: {
+              currency_code: currencyCode,
+              value: getSegmentTotal('tax')
+            }
+          },
+          value: getSegmentTotal('grand_total'),
+          currency_code: currencyCode
+        }
+    },
     getProducts: (state, getters, rootState, rootGetters) => {
         return rootState.cart.cartItems.map(product => {
             return {

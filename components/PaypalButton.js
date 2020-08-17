@@ -1,3 +1,4 @@
+import { mapGetters } from 'vuex';
 import store from '@vue-storefront/core/store'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
@@ -29,10 +30,11 @@ export const PaypalButton = {
   },
   computed: {
     ...mapGetters({
-      platformTotal: 'payment-paypal-magento2/getPlatformTotal',
+      shippingDetails: 'payment-paypal-magento2/getShippingDetails',
       getBillingAddress: 'payment-paypal-magento2/getBillingAddress',
       getShippingAddress: 'payment-paypal-magento2/getShippingAddress',
-      getProducts: 'payment-paypal-magento2/getProducts'
+      getProducts: 'payment-paypal-magento2/getProducts',
+      getAmount: 'payment-paypal-magento2/getAmount'
     })
   },
   methods: {
@@ -43,44 +45,14 @@ export const PaypalButton = {
         style: this.styling
       }).render('.paypal-button')
     },
-    getSegmentTotal (name) {
-      const total = this.platformTotal.filter(segment => {
-        return segment.code === name
-      })
-      return total.length > 0 ? Math.abs(parseFloat(total[0].value).toFixed(2)) : 0
-    },
     getPurchaseUnits () {
       return [{
         reference_id: this.$store.getters['cart/getCartToken'],
         description: this.$t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
-        items: this.getProducts(),
-        amount: this.getAmount(),
-        shipping: this.getShippingAddress()
+        items: this.getProducts,
+        amount: this.getAmount,
+        shipping: this.getShippingAddress
       }]
-    },
-    getAmount () {
-      return {
-        breakdown: {
-          item_total: {
-            currency_code: this.currencyCode,
-            value: this.getSegmentTotal('subtotal')
-          },
-          shipping: {
-            currency_code: this.currencyCode,
-            value: this.getSegmentTotal('shipping')
-          },
-          discount: {
-            currency_code: this.currencyCode,
-            value: this.getSegmentTotal('discount')
-          },
-          tax_total: {
-            currency_code: this.currencyCode,
-            value: this.getSegmentTotal('tax')
-          }
-        },
-        value: this.getSegmentTotal('grand_total'),
-        currency_code: this.currencyCode
-      }
     },
     async onCreateOrder (data, actions) {
       return store.dispatch('cart/syncTotals', {

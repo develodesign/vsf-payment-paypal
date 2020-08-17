@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { PaypalButton } from '@develodesign/vsf-payment-paypal/components/PaypalButton'
+import { PaypalButton } from './PaypalButton'
 
 export default {
   mixins: [PaypalButton]
