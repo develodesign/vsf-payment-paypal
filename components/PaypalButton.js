@@ -28,15 +28,12 @@ export const PaypalButton = {
     this.renderButton()
   },
   computed: {
-    platformTotal () {
-      return this.$store.state.cart.platformTotalSegments
-    },
-    shippingDetails () {
-      return this.$store.state.checkout.shippingDetails
-    },
-    paymentDetails () {
-      return this.$store.state.checkout.paymentDetails
-    }
+    ...mapGetters({
+      platformTotal: 'payment-paypal-magento2/getPlatformTotal',
+      getBillingAddress: 'payment-paypal-magento2/getBillingAddress',
+      getShippingAddress: 'payment-paypal-magento2/getShippingAddress',
+      getProducts: 'payment-paypal-magento2/getProducts'
+    })
   },
   methods: {
     renderButton () {
@@ -53,64 +50,13 @@ export const PaypalButton = {
       return total.length > 0 ? Math.abs(parseFloat(total[0].value).toFixed(2)) : 0
     },
     getPurchaseUnits () {
-      return [
-        {
-          reference_id: this.$store.getters['cart/getCartToken'],
-          // payment_instruction: '',
-          description: this.$t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
-          items: this.getProducts(),
-          amount: this.getAmount(),
-          shipping: this.getShippingAddress()
-        }
-      ]
-    },
-    getProducts () {
-      let products = []
-      this.$store.state.cart.cartItems.forEach(product => {
-        products.push({
-          name: product.name,
-          unit_amount: {
-            currency_code: this.currencyCode,
-            value: product.price
-          },
-          tax: {
-            currency_code: this.currencyCode,
-            value: ''
-            // optional tax already set in totals, this is not needed
-            // value: (product.totals.price_incl_tax - product.totals.price).toFixed(2)
-          },
-          description: (product.options && product.options.length > 0) ? product.options.map((el) => { return el.value }).join(',') : '',
-          quantity: product.qty,
-          sku: product.sku,
-          category: 'PHYSICAL_GOODS'
-        })
-      })
-      return products
-    },
-    getBillingAddress () {
-      return {
-        address_line_1: this.paymentDetails.streetAddress,
-        address_line_2: this.paymentDetails.apartmentNumber,
-        admin_area_1: this.paymentDetails.region_code,
-        admin_area_2: this.paymentDetails.city,
-        postal_code: this.paymentDetails.zipCode,
-        country_code: this.paymentDetails.country
-      }
-    },
-    getShippingAddress () {
-      return {
-        name: {
-          full_name: this.shippingDetails.firstName + ' ' + this.shippingDetails.lastName
-        },
-        address: {
-          address_line_1: this.shippingDetails.streetAddress,
-          address_line_2: this.shippingDetails.apartmentNumber,
-          admin_area_1: this.shippingDetails.region_code,
-          admin_area_2: this.shippingDetails.city,
-          postal_code: this.shippingDetails.zipCode,
-          country_code: this.shippingDetails.country
-        }
-      }
+      return [{
+        reference_id: this.$store.getters['cart/getCartToken'],
+        description: this.$t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
+        items: this.getProducts(),
+        amount: this.getAmount(),
+        shipping: this.getShippingAddress()
+      }]
     },
     getAmount () {
       return {
