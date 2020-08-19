@@ -1,3 +1,4 @@
 export interface PaypalState {
-  methods: null
+  methods: null,
+  token: null
 }
