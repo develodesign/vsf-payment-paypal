@@ -1,10 +1,16 @@
 import { GetterTree } from 'vuex';
 import { PaypalState } from '../types/PaypalState'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
+import i18n from '@vue-storefront/i18n'
 
 export const getters: GetterTree<PaypalState, any> = {
+
+    getToken: (state) => state.token,
+
     getPlatformTotalSegments: (state, getters, rootState, rootGetters) => rootState.cart.platformTotalSegments,
+
     getShippingDetails: (state, getters, rootState, rootGetters) => rootState.checkout.shippingDetails,
+
     getPaymentDetails: (state, getters, rootState, rootGetters) => rootState.checkout.paymentDetails,
 
     getCustomerEmail: (state, getters, rootState, rootGetters) => {
@@ -25,7 +31,7 @@ export const getters: GetterTree<PaypalState, any> = {
     getPurchaseUnits: (state, getters, rootState, rootGetters) => {
       return [{
         reference_id: rootGetters['cart/getCartToken'],
-        description: 'Need to return an item? We accept returns for unused items in packaging 60 days after you order',
+        description: i18n.t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
         items: getters.getProducts,
         amount: getters.getAmount,
         shipping: getters.getShippingAddress
