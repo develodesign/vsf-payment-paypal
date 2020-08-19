@@ -11,6 +11,9 @@ export const paypalStore: Module<PaypalState, any> = {
   mutations: {
     [types.SET_BACKEND_PAYMENT_PAYPAL_EXPRESS](state, paymentMethods) {
       state.methods = paymentMethods
-    }
+    },
+    [types.SET_PAYPAL_EXPRESS_TOKEN](state, token) {
+      state.token = token
+    },
   }
 }
