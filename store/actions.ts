@@ -13,13 +13,12 @@ export const actions: ActionTree<PaypalState, any> = {
     const resp = await dispatch('processOrder')
 
     const result = resp.result
-    let errorMessage = ''
     if (result.success && result.hasOwnProperty('token')) {
       const tokenId = result.token
       commit(types.SET_PAYPAL_EXPRESS_TOKEN, tokenId)
       return tokenId
     } else {
-      errorMessage = result.error.message
+      commit(types.SET_PAYPAL_MESSAGE, result.error.message)
       return false
     }
   },

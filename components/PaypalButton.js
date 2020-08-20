@@ -1,5 +1,4 @@
 import { mapGetters } from 'vuex';
-import store from '@vue-storefront/core/store'
 
 export const PaypalButton = {
   name: 'PaypalButton',
@@ -15,14 +14,10 @@ export const PaypalButton = {
       })
     }
   },
-  data () {
-    return {
-      errorMessage: ''
-    }
-  },
   computed: {
     ...mapGetters({
-      token: 'payment-paypal-magento2/getToken'
+      token: 'payment-paypal-magento2/getToken',
+      message: 'payment-paypal-magento2/getMessage'
     })
   },
   methods: {
@@ -34,7 +29,7 @@ export const PaypalButton = {
       }).render('.paypal-button')
     },
     async onCreateOrder (data, actions) {
-      return store.dispatch('payment-paypal-magento2/createOrder')
+      return this.$store.dispatch('payment-paypal-magento2/createOrder')
     },
     async onApprove (data, actions) {
       let additionalMethod = {

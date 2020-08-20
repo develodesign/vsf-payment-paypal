@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="color: red;">{{ $t(errorMessage) }}</div>
+    <div style="color: red;">{{ $t(message) }}</div>
     <div class="paypal-button" />
   </div>
 </template>

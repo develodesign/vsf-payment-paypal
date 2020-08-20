@@ -15,5 +15,8 @@ export const paypalStore: Module<PaypalState, any> = {
     [types.SET_PAYPAL_EXPRESS_TOKEN](state, token) {
       state.token = token
     },
+    [types.SET_PAYPAL_MESSAGE](state, message) {
+      state.message = message
+    }
   }
 }
