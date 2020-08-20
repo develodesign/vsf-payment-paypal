@@ -1,6 +1,6 @@
 {
   "name": "@develodesign/vsf-payment-paypal",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "The PayPal module built for vue-storefront, by Develo Design.",
   "main": "index.ts",
   "scripts": {

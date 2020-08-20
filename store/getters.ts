@@ -7,6 +7,8 @@ export const getters: GetterTree<PaypalState, any> = {
 
     getToken: (state) => state.token,
 
+    getMessage: (state) => state.message,
+
     getPlatformTotalSegments: (state, getters, rootState, rootGetters) => rootState.cart.platformTotalSegments,
 
     getShippingDetails: (state, getters, rootState, rootGetters) => rootState.checkout.shippingDetails,
