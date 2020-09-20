@@ -79,7 +79,7 @@ export const getters: GetterTree<PaypalState, any> = {
           name: product.name,
           unit_amount: {
             currency_code: rootState.storeView.i18n.currencyCode,
-            value: product.price
+            value: product.totals.price
           },
           tax: {
             currency_code: rootState.storeView.i18n.currencyCode,
