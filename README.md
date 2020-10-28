@@ -33,11 +33,13 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 ## Registration the Paypal module
 
 Let's edit `config/modules.ts`
-Module registration lives here: `./src/themes/default/config/modules.ts` or `./src/themes/capybara/config/modules.ts` or in you custom theme.
+If you use the default theme, the module registration lives here: `./src/themes/modules/client.ts`.
+With Capybara, it's here: `./src/themes/capybara/config/modules.ts`.
 
 ```js
 ...
-import { PaymentPaypalModule } from '../../../modules/paypal';
+import { PaymentPaypalModule } from './paypal'; // Default theme
+import { PaymentPaypalModule } from '../../../modules/paypal'; // Capybara theme
 
 export function registerClientModules () {
   ...
