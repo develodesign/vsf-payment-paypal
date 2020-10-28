@@ -1,3 +1,4 @@
+import config from 'config'
 import { GetterTree } from 'vuex';
 import { PaypalState } from '../types/PaypalState'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
@@ -48,6 +49,7 @@ export const getters: GetterTree<PaypalState, any> = {
           return total.length > 0 ? Math.abs(parseFloat(total[0].value.toFixed(2))) : 0
       }
       const currencyCode = rootState.storeView.i18n.currencyCode
+      const taxTotal = config.tax.finalPriceIncludesTax ? 0 : getSegmentTotal('tax')
 
       return {
         breakdown: {
@@ -65,7 +67,7 @@ export const getters: GetterTree<PaypalState, any> = {
           },
           tax_total: {
             currency_code: currencyCode,
-            value: getSegmentTotal('tax')
+            value: taxTotal
           }
         },
         value: getSegmentTotal('grand_total'),
@@ -75,11 +77,14 @@ export const getters: GetterTree<PaypalState, any> = {
 
     getProducts: (state, getters, rootState, rootGetters) => {
       return rootState.cart.cartItems.map(product => {
+        const totals = product.totals
+        const productPrice = config.tax.finalPriceIncludesTax ? totals.price_incl_tax : totals.price
+
         return {
           name: product.name,
           unit_amount: {
             currency_code: rootState.storeView.i18n.currencyCode,
-            value: product.totals.price
+            value: productPrice
           },
           tax: {
             currency_code: rootState.storeView.i18n.currencyCode,

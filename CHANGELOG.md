@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.3] - 28.10.2020
 
+- Correct calc of taxes (included / excluded)
 - Disable MyBank and Sofort funding
 - Fix import and module registration of this module
 
