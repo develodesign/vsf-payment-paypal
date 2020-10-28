@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.1.3] - 28.10.2020
+
+- Disable MyBank and Sofort funding
+- Fix import and module registration of this module
+
 ## [1.1.2] - 20.08.2020
 
 - Display notification messages from paypal
