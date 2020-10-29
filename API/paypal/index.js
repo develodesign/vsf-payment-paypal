@@ -31,7 +31,7 @@ module.exports = ({ config, db }) => {
     try {
       order = await paypalClient.client(config.extensions.paypal).execute(request);
     } catch (err) {
-      console.error(err);
+      console.error('Error on the complete PayPal order function. Please check the error, the request of the body and of the order:', err, req.body, request);
       return res.sendStatus(500);
     }
     return res.json({
@@ -47,14 +47,16 @@ module.exports = ({ config, db }) => {
         if (result.hasOwnProperty('TOKEN')) {
           apiStatus(res, { success: true, token: result.TOKEN }, 200);
         } else {
+          console.error('PayPal result without token. Please debug the query:', query);
           apiStatus(res, { success: false, error: { message: result.L_LONGMESSAGE0 } }, 500);
         }
       }).catch((err) => {
-        console.trace(query);
+        console.trace('Error on the PayPal NVP request:', query);
         console.trace(err);
         return res.sendStatus(500);
       });
     } catch (err) {
+      console.error('Generic error on the PayPal setExpressCheckout function. Request body:', req.body);
       console.error(err);
       return res.sendStatus(500);
     }
