@@ -152,6 +152,10 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
   }
 ```
 
+### Important
+If the JSON object sent to the VSF API order is bigger than the body-parser limit, you get the exception `PayloadTooLargeError`.
+For this reason, it's strongly recommended to increase the `bodyLimit` value, especially if some PayPal orders fail.
+
 ## Magento2 integration
 
 Turn on Paypal Express and provide the API credentials using the built in Paypal module. Enable only Express Checkout.
