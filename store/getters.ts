@@ -37,7 +37,8 @@ export const getters: GetterTree<PaypalState, any> = {
         description: i18n.t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
         items: getters.getProducts,
         amount: getters.getAmount,
-        shipping: getters.getShippingAddress
+        shipping: getters.getShippingAddress,
+        phone: getters.getShippingDetails.phoneNumber
       }]
     },
 
