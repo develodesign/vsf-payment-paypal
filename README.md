@@ -1,13 +1,13 @@
 # This is the PayPal Payment module for Vue Storefront
 
 
-PayPal Payment Magento 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
+PayPal Payment Magento 1 & 2 module for [vue-storefront](https://github.com/DivanteLtd/vue-storefront)
 
 ![default](https://imgur.com/QFCUX0R.jpg)
 
 Tested with VSF 1.12.x
 
-This module is for those who want to use Magento 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 2.2.x and 2.3.x. This allows for backend Magento2 management of the Order lifecycle.
+This module is for those who want to use Magento 1 & 2's built in Paypal extension that uses the deprecated NVP/Soap api. Tested on Magento 1.9.x, 2.2.x and 2.3.x. This allows for backend Magento management of the Order lifecycle.
 
 This module can also be used with the newer API calls easily, as address and cart items are set to be transferred to Paypal SmartButton.
 
@@ -156,11 +156,14 @@ Add the following also to your `config/local.json` need set `paypal.env` to `san
 If the JSON object sent to the VSF API order is bigger than the body-parser limit, you get the exception `PayloadTooLargeError`.
 For this reason, it's strongly recommended to increase the `bodyLimit` value, especially if some PayPal orders fail.
 
-## Magento2 integration
+## Magento integration
 
 Turn on Paypal Express and provide the API credentials using the built in Paypal module. Enable only Express Checkout.
 
 Other Paypal methods are not supported or tested right now.
+
+### Important
+For Magento 1.9.x you need to manually apply this fix on the magento1-vsbridge in order to correctly works with this module: [Fix Create order](https://github.com/DivanteLtd/magento1-vsbridge/pull/55).
 
 ## Customization
 
