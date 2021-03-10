@@ -8,10 +8,10 @@ import * as types from './mutation-types'
 
 export const actions: ActionTree<PaypalState, any> = {
 
-  async createOrder ({ commit, dispatch, getters }) {
+  async createOrder ({ commit, dispatch }) {
     await dispatch('syncCartTotals')
     const resp = await dispatch('processOrder')
-
+    console.log('Lo que tiene RESP', resp);
     const result = resp.result
     if (result.success && result.hasOwnProperty('token')) {
       const tokenId = result.token
@@ -23,7 +23,7 @@ export const actions: ActionTree<PaypalState, any> = {
     }
   },
 
-  complete({}, params) {
+  complete (a, params) {
     let url = processURLAddress(config.paypal.endpoint.complete)
     url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
     return fetch(url, {
@@ -37,7 +37,8 @@ export const actions: ActionTree<PaypalState, any> = {
     }).then(resp => { return resp.json() })
   },
 
-  setExpressCheckout({}, params) {
+  setExpressCheckout (a, params) {
+    console.log('Params de ExpressCheckout', params);
     let url = processURLAddress(config.paypal.endpoint.setExpressCheckout)
     url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
     return fetch(url, {
@@ -51,7 +52,7 @@ export const actions: ActionTree<PaypalState, any> = {
     }).then(resp => { return resp.json() })
   },
 
-  async syncCartTotals ({ dispatch, getters }) {
+  async syncCartTotals ({ getters }) {
     const shippingDetails = getters['getShippingDetails'] || {}
     await rootStore.dispatch('cart/syncTotals', {
       methodsData: {
@@ -70,7 +71,9 @@ export const actions: ActionTree<PaypalState, any> = {
 
   // Create order using Server Side methods same as magento 2...
   async processOrder ({ dispatch, getters }) {
-    return await dispatch('setExpressCheckout', {
+    console.log('Getters de ProcessOrder', getters);
+    // Remove the await from dispatch call because of lint
+    return dispatch('setExpressCheckout', {
       cart_id: getters['cart/getCartToken'],
       brand_name: '',
       locale: getters['getLocale'],

@@ -1,7 +1,7 @@
 import { isServer } from '@vue-storefront/core/helpers'
 import { currentStoreView } from '@vue-storefront/core/lib/multistore'
 
-export function beforeRegistration(config, store) {
+export function beforeRegistration (config, store) {
   const VSF_PAYPAL_CODE = 'paypal_express'
 
   if (!isServer && config.hasOwnProperty('paypal')) {

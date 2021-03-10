@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { isServer } from '@vue-storefront/core/helpers'
 import * as types from '../store/mutation-types'
 
-export function afterRegistration(config, store) {
+export function afterRegistration (config, store) {
   const VSF_PAYPAL_CODE = 'paypal_express'
   let correctPaymentMethod = false
 

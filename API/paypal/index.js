@@ -65,7 +65,7 @@ module.exports = ({ config, db }) => {
   return api;
 };
 
-function setPaypalNVPQuery(pay) {
+function setPaypalNVPQuery (pay) {
   var query = {
     'PAYMENTREQUEST_0_AMT': paypalNVP.formatCurrency(pay.purchase_units[0].amount.value),
     'PAYMENTREQUEST_0_CURRENCYCODE': pay.currency_code,
@@ -102,20 +102,19 @@ function setPaypalNVPQuery(pay) {
   return Object.assign(query, getProducts(pay.purchase_units[0].items));
 }
 
-function getProducts(products) {
+function getProducts (products) {
   var pQuery = {};
   products.forEach((p, i) => {
     var tmp = {};
-    tmp["L_PAYMENTREQUEST_0_NAME" + i] = p.name.replace(/[^a-zA-Z0-9- ]/g, '');
-    tmp["L_PAYMENTREQUEST_0_DESC" + i] = p.description.replace(/[^a-zA-Z0-9- ]/g, '');
-    tmp["L_PAYMENTREQUEST_0_AMT" + i] = paypalNVP.formatCurrency(p.unit_amount.value);
-    tmp["L_PAYMENTREQUEST_0_TAXAMT" + i] = paypalNVP.formatCurrency(p.tax.value);
-    tmp["L_PAYMENTREQUEST_0_NUMBER" + i] = p.sku.replace(/[^a-zA-Z0-9- ]/g, '');
-    tmp["L_PAYMENTREQUEST_0_QTY" + i] = p.quantity;
-    tmp["L_PAYMENTREQUEST_0_ITEMCATEGORY" + i] = 'Physical';
+    tmp['L_PAYMENTREQUEST_0_NAME' + i] = p.name.replace(/[^a-zA-Z0-9- ]/g, '');
+    tmp['L_PAYMENTREQUEST_0_DESC' + i] = p.description.replace(/[^a-zA-Z0-9- ]/g, '');
+    tmp['L_PAYMENTREQUEST_0_AMT' + i] = paypalNVP.formatCurrency(p.unit_amount.value);
+    tmp['L_PAYMENTREQUEST_0_TAXAMT' + i] = paypalNVP.formatCurrency(p.tax.value);
+    tmp['L_PAYMENTREQUEST_0_NUMBER' + i] = p.sku.replace(/[^a-zA-Z0-9- ]/g, '');
+    tmp['L_PAYMENTREQUEST_0_QTY' + i] = p.quantity;
+    tmp['L_PAYMENTREQUEST_0_ITEMCATEGORY' + i] = 'Physical';
     Object.assign(pQuery, tmp);
   });
 
   return pQuery;
 }
-

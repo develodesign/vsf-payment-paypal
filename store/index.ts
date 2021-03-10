@@ -9,13 +9,13 @@ export const paypalStore: Module<PaypalState, any> = {
   actions,
   getters,
   mutations: {
-    [types.SET_BACKEND_PAYMENT_PAYPAL_EXPRESS](state, paymentMethods) {
+    [types.SET_BACKEND_PAYMENT_PAYPAL_EXPRESS] (state, paymentMethods) {
       state.methods = paymentMethods
     },
-    [types.SET_PAYPAL_EXPRESS_TOKEN](state, token) {
+    [types.SET_PAYPAL_EXPRESS_TOKEN] (state, token) {
       state.token = token
     },
-    [types.SET_PAYPAL_MESSAGE](state, message) {
+    [types.SET_PAYPAL_MESSAGE] (state, message) {
       state.message = message
     }
   }
