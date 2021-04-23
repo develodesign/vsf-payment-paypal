@@ -23,11 +23,33 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 ```json
 "paypal": {
   "clientId": "",
+  "addJsToGlobalHead": true,
   "endpoint": {
     "complete": "/api/ext/paypal/complete",
     "setExpressCheckout": "/api/ext/paypal/setExpressCheckout"
   }
 }
+```
+
+#### Add JS to Head
+If you want to defer adding the JS to head globally, you can set `addJsToGlobalHead` to `false`
+
+This will defer the beforeRegistration hook and then you can add the below into the mounted lifecycle on your checkout component where you will import the Paypal button.
+
+```js
+mounted () {
+    if (!isServer && window.paypalScriptLoaded === undefined) {
+      const storeView = currentStoreView()
+      const { currencyCode } = storeView.i18n
+      const clientId = config.paypal.hasOwnProperty('clientId') ? config.paypal.clientId : ''
+      const sdkUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=${currencyCode}&disable-funding=card,credit,mybank,sofort`
+      var script = document.createElement('script')
+      script.setAttribute('src', sdkUrl)
+      document.head.appendChild(script)
+      window.paypalScriptLoaded = true
+    }
+}
+
 ```
 
 ## Registration the Paypal module
