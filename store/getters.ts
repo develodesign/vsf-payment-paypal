@@ -10,7 +10,7 @@ export const getters: GetterTree<PaypalState, any> = {
 
   getMessage: (state) => state.message,
 
-  getPlatformTotalSegments: (state, getters, rootState, rootGetters) => rootState.cart.platformTotalSegments,
+  getPlatformTotalSegments: (state, getters, rootState, rootGetters) => rootState.cart.getTotals,
 
   getShippingDetails: (state, getters, rootState, rootGetters) => rootState.checkout.shippingDetails,
 
@@ -34,32 +34,35 @@ export const getters: GetterTree<PaypalState, any> = {
   getPurchaseUnits: (state, getters, rootState, rootGetters) => {
     return [{
       reference_id: rootGetters['cart/getCartToken'],
-      description: i18n.t('Need to return an item? We accept returns for unused items in packaging 60 days after you order'),
+      description: '',
       items: getters.getProducts,
-      amount: getters.getAmount,
+      amount: rootGetters['cart/getTotals'],
       shipping: getters.getShippingAddress,
       phone: getters.getShippingDetails.phoneNumber
     }]
   },
 
+  /**
+   * I don't think this is needed anymore since we use 
+   * amount: rootGetters['cart/getTotals'] to get the 
+   * amounts.
+   */
   getAmount: (state, getters, rootState, rootGetters) => {
-    console.log('Amount Rootstate: ', rootState);
-
     const getSegmentTotal = (name) => {
-      // const total = getters.getPlatformTotalSegments.filter(segment => {
-      //   return segment.code === name
-      return name;
-      // })
-      // return total.length > 0 ? Math.abs(parseFloat(total[0].value.toFixed(2))) : 0
+      const total = rootGetters.cart.getTotals.filter(segment => {
+        return segment.code === name
+      })
+      return total.length > 0 ? Math.abs(parseFloat(total[0].value.toFixed(2))) : 0
     }
     const currencyCode = rootState.storeView.i18n.currencyCode
-    const taxTotal = config.tax.finalPriceIncludesTax ? 0 : getSegmentTotal('tax')
+    const taxTotal = config.tax.finalPriceIncludesTax ? 0 : 0 // getSegmentTotal('tax')
 
+    // TODO, this might need fixing.
     return {
       breakdown: {
         item_total: {
           currency_code: currencyCode,
-          value: getSegmentTotal('subtotal')
+          value: getSegmentTotal('subtotal_incl_tax') // was: subtotal
         },
         shipping: {
           currency_code: currencyCode,
@@ -67,11 +70,11 @@ export const getters: GetterTree<PaypalState, any> = {
         },
         discount: {
           currency_code: currencyCode,
-          value: getSegmentTotal('discount')
+          value: 0 // getSegmentTotal('discount')
         },
         tax_total: {
           currency_code: currencyCode,
-          value: taxTotal
+          value: getSegmentTotal('subtotal_incl_tax') // was: taxTotal
         }
       },
       value: getSegmentTotal('grand_total'),
@@ -82,10 +85,13 @@ export const getters: GetterTree<PaypalState, any> = {
   getProducts: (state, getters, rootState, rootGetters) => {
     console.log('Products Rootstate: ', rootState);
 
+    //
+    //
+    //
     return rootState.cart.cartItems.map(product => {
-      const totals = product.totals
-      const productPrice = config.tax.finalPriceIncludesTax ? totals.price_incl_tax : totals.price
-
+      // At some point you might want to add taxes here:
+      //const productPrice = config.tax.finalPriceIncludesTax ? totals.price_incl_tax : 123;
+      const productPrice = product.price_incl_tax;
       return {
         name: product.name,
         unit_amount: {
@@ -100,8 +106,8 @@ export const getters: GetterTree<PaypalState, any> = {
         },
         description: (product.options && product.options.length > 0) ? product.options.map((el) => { return el.value }).join(',') : '',
         quantity: product.qty,
-        sku: product.sku,
-        category: 'PHYSICAL_GOODS'
+        product_id: product.id,
+        sku: product.sku
       }
     })
   },
@@ -120,17 +126,23 @@ export const getters: GetterTree<PaypalState, any> = {
 
   getShippingAddress: (state, getters, rootState, rootGetters) => {
     const shippingDetails = getters.getShippingDetails
+    // Missing fields that you can get from shipping details:
+    // - phoneNumber
+    // - region_id
+    // - shippingCarrier
+    // - shippingMethod
     return {
       name: {
-        full_name: `${shippingDetails.firstName} ${shippingDetails.lastName}`
+        first: `${shippingDetails.firstName}`,
+        last: `${shippingDetails.lastName}`
       },
       address: {
-        address_line_1: shippingDetails.streetAddress,
-        address_line_2: shippingDetails.apartmentNumber,
-        admin_area_1: shippingDetails.region_code,
-        admin_area_2: shippingDetails.city,
-        postal_code: shippingDetails.zipCode,
-        country_code: shippingDetails.country
+        streetAddress: shippingDetails.streetAddress,
+        streetAddress2: shippingDetails.apartmentNumber,
+        state: shippingDetails.state,
+        city: shippingDetails.city,
+        zipCode: shippingDetails.zipCode,
+        country: shippingDetails.country
       }
     }
   }

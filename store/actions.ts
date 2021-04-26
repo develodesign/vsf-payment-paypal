@@ -6,14 +6,21 @@ import { processURLAddress } from '@vue-storefront/core/helpers'
 import rootStore from '@vue-storefront/core/store'
 import * as types from './mutation-types'
 
+/**
+ * Initiated from the PayPal Button when the user clicks
+ */
 export const actions: ActionTree<PaypalState, any> = {
 
   async createOrder ({ commit, dispatch }) {
     await dispatch('syncCartTotals')
+
+    // Process the order
     const resp = await dispatch('processOrder')
-    console.log('Lo que tiene RESP', resp);
+
     const result = resp.result
     if (result.success && result.hasOwnProperty('token')) {
+      // This might be useful later:
+      // console.log("Process order succeeeded, token is here", result.token);
       const tokenId = result.token
       commit(types.SET_PAYPAL_EXPRESS_TOKEN, tokenId)
       return tokenId
@@ -21,35 +28,6 @@ export const actions: ActionTree<PaypalState, any> = {
       commit(types.SET_PAYPAL_MESSAGE, result.error.message)
       return false
     }
-  },
-
-  complete (a, params) {
-    let url = processURLAddress(config.paypal.endpoint.complete)
-    url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
-    return fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params)
-    }).then(resp => { return resp.json() })
-  },
-
-  setExpressCheckout (a, params) {
-    console.log('Params de ExpressCheckout', params);
-    let url = processURLAddress(config.paypal.endpoint.setExpressCheckout)
-    url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
-    return fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(params)
-    }).then(resp => { return resp.json() })
   },
 
   async syncCartTotals ({ getters }) {
@@ -71,9 +49,7 @@ export const actions: ActionTree<PaypalState, any> = {
 
   // Create order using Server Side methods same as magento 2...
   async processOrder ({ dispatch, getters }) {
-    console.log('Getters de ProcessOrder', getters);
-    // Remove the await from dispatch call because of lint
-    return dispatch('setExpressCheckout', {
+    return await dispatch('setExpressCheckout', {
       cart_id: getters['cart/getCartToken'],
       brand_name: '',
       locale: getters['getLocale'],
@@ -86,5 +62,33 @@ export const actions: ActionTree<PaypalState, any> = {
       total_type: 'EstimatedTotal',
       logo: ''
     })
-  }
+  },
+
+  setExpressCheckout (a, params) {
+    let url = processURLAddress(config.paypal.endpoint.setExpressCheckout)
+    url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
+    return fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    }).then(resp => { return resp.json() })
+  },
+  // Is this even used?
+  complete (a, params) {
+    let url = processURLAddress(config.paypal.endpoint.complete)
+    url = config.storeViews.multistore ? adjustMultistoreApiUrl(url) : url
+    return fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    }).then(resp => { return resp.json() })
+  },
 }

@@ -21,6 +21,10 @@ export const PaypalButton = {
     })
   },
   methods: {
+
+    //
+    // We use the SDK to render the PayPal Button.
+    //
     renderButton () {
       window.paypal.Buttons({
         createOrder: this.onCreateOrder,
@@ -28,9 +32,19 @@ export const PaypalButton = {
         style: this.styling
       }).render('.paypal-button')
     },
+
+    //
+    // This is implementation from the PayPal SDK
+    //
     async onCreateOrder (data, actions) {
-      return this.$store.dispatch('payment-paypal-magento2/createOrder')
+      // Use our server side integration to setup the Payment
+      let result = await this.$store.dispatch('payment-paypal-magento2/createOrder')
+      return result;
     },
+
+    //
+    // This is implementation from the PayPal SDK
+    //
     async onApprove (data, actions) {
       let additionalMethod = {
         // magento 2 fields expects
