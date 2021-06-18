@@ -23,6 +23,7 @@ $ git clone git@github.com:develodesign/vsf-payment-paypal.git ./vue-storefront/
 ```json
 "paypal": {
   "clientId": "",
+  "disabledMethods": ["giropay", "sofort", "card", "credit", "mybank", "sepa"], 
   "addJsToGlobalHead": true,
   "endpoint": {
     "complete": "/api/ext/paypal/complete",
